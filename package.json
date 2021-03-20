@@ -1,0 +1,38 @@
+{
+    "author": {
+      "name": "Jim Manton"
+    },
+    "version": "0.0.1",
+    "bundleDependencies": false,
+    "dependencies": {
+      "chai": "^4.3.3",
+      "colors": "^1.4.0",
+      "compare-json-difference": "^0.1.3",
+      "mocha": "^8.3.1"
+    },
+    "scripts": {
+      "start": "node app.js",
+      "test": "mocha"
+    },
+    "keywords": [
+      "queue",
+      "processing",
+      "appenders",
+      "javascript",
+      "objects",
+      "mocha"
+    ],
+    "homepage": "https://github.com/jman717/QueueObj",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/jman717/QueueObj.git"
+    },
+    "deprecated": false,
+    "description": "Queue Objects For Processing",
+    "email": "jrman@risebroadband.net",
+    "license": "MIT",
+    "main": "app.js",
+    "name": "log4js-tagline",
+    "start": "node app.js"
+  }
+  
