@@ -5,7 +5,7 @@
 
 var colors = require('colors')
 
-class queueObj {
+class QueueObj {
 
     constructor({ display, output }) {
         try {
@@ -92,5 +92,5 @@ class queueObj {
 }
 
 exports = module.exports = function (props) {
-    return new queueObj(props)
+    return new QueueObj(props)
 }

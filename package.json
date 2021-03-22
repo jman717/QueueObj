@@ -2,7 +2,7 @@
   "author": {
     "name": "Jim Manton"
   },
-  "version": "0.0.1",
+  "version": "0.0.2",
   "bundleDependencies": false,
   "dependencies": {
     "chai": "^4.3.3",
@@ -32,9 +32,6 @@
   "email": "jrman@risebroadband.net",
   "license": "MIT",
   "main": "app.js",
-  "name": "log4js-tagline",
-  "start": "node app.js",
-  "devDependencies": {
-    "@types/node": "^14.14.35"
-  }
+  "name": "queueobj",
+  "start": "node app.js"
 }
