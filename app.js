@@ -4,10 +4,11 @@
 */
 
 var colors = require('colors')
+var all = require('./lib/appenders/all')
 
 class QueueObj {
 
-    constructor({ display, output }) {
+    constructor() {
         try {
             var t = this
             t.appenders_dir = './lib/appenders/'
@@ -37,13 +38,13 @@ class QueueObj {
             if (typeof props != `undefined` &&
                 typeof props.appender != `undefined` &&
                 typeof props.appender == 'string') {
-                var a = t.appenders_dir + props.appender + '.js'
-                console.log('queueObj file loading=' + a.green)
+                //var a = t.appenders_dir + props.appender + '.js'
+                //console.log('queueObj file loading=' + a.green)
                 props.getParent = t.getParent
-                var load = require(a)
+                //var load = require(a)
                 switch (props.appender) {
                     case 'all' :
-                        t.all = new load(props)
+                        t.all = new all(props)
                         break
                         default:
                             throw new Error(`appender(${props.appender}) not found`)
@@ -51,7 +52,6 @@ class QueueObj {
                 return t
             }
         } catch (e) {
-            ``
             e.message = "queueObj app.js load error: " + e.message
             console.log(e.message)
             throw (e)
