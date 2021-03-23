@@ -5,6 +5,8 @@
 
 var colors = require('colors')
 var all = require('./lib/appenders/all')
+var top_one = require('./lib/appenders/top_one')
+var bottom_one = require('./lib/appenders/bottom_one')
 
 class QueueObj {
 
@@ -18,6 +20,8 @@ class QueueObj {
             t.getParent = t.getParent.bind(this)
             t.getObjectToProcess = t.getObjectToProcess.bind(this)
             t.all = null
+            t.top_one = null
+            t.bottom_one = null
             t.objs = []
             t.resolve = null
             t.reject = null
@@ -27,8 +31,12 @@ class QueueObj {
         }
     }
 
-    getObjectToProcess(){
+    getObjectToProcess() {
         return this.objs.shift()
+    }
+
+    getBottomObjectToProcess() {
+        return this.objs.pop()
     }
 
     load(props) {
@@ -38,16 +46,19 @@ class QueueObj {
             if (typeof props != `undefined` &&
                 typeof props.appender != `undefined` &&
                 typeof props.appender == 'string') {
-                //var a = t.appenders_dir + props.appender + '.js'
-                //console.log('queueObj file loading=' + a.green)
                 props.getParent = t.getParent
-                //var load = require(a)
                 switch (props.appender) {
-                    case 'all' :
+                    case 'all':
                         t.all = new all(props)
                         break
-                        default:
-                            throw new Error(`appender(${props.appender}) not found`)
+                    case 'top_one':
+                        t.top_one = new top_one(props)
+                        break
+                    case 'bottom_one':
+                        t.bottom_one = new bottom_one(props)
+                        break
+                    default:
+                        throw new Error(`appender(${props.appender}) not found`)
                 }
                 return t
             }
@@ -78,8 +89,12 @@ class QueueObj {
         try {
             var t = this
             switch (t.props.appender) {
-                case 'all' :
+                case 'all':
                     return t.all.process(t.props)
+                case 'top_one':
+                    return t.top_one.process(t.props)
+                case 'bottom_one':
+                    return t.bottom_one.process(t.props)
                 default:
                     throw new Error(`nothing to process`)
             }

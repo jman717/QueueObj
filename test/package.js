@@ -1,4 +1,8 @@
-{
+const assert = require('assert'),
+    jsonHasDifferences = require('compare-json-difference'),
+    packagejson = require('../package.json')
+
+const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
@@ -35,3 +39,14 @@
   "name": "queueobj",
   "start": "node app.js"
 }
+
+describe('package.json', function () {
+    it('should pass', function () {
+        assert(!jsonHasDifferences(packagejson, packageMock, true))
+    })
+
+    it('should fail', function () {
+        packageMock.version = '0'
+        assert(jsonHasDifferences(packagejson, packageMock, true))
+    })
+})

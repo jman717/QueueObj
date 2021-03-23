@@ -20,7 +20,10 @@ npm test
 General Setup Test
 ---------
 ```
-node test
+node test_all
+node test_top_one
+node test_bottom_one
+
 ```
 
 Usage
