@@ -3,10 +3,11 @@
 * Main processing app
 */
 
-var colors = require('colors')
-var all = require('./lib/appenders/all')
-var top_one = require('./lib/appenders/top_one')
-var bottom_one = require('./lib/appenders/bottom_one')
+var colors = require('colors'),
+    all = require('./lib/appenders/all'),
+    func_all = require('./lib/appenders/func_all'),
+    top_one = require('./lib/appenders/top_one'),
+    bottom_one = require('./lib/appenders/bottom_one')
 
 class QueueObj {
 
@@ -22,6 +23,7 @@ class QueueObj {
             t.all = null
             t.top_one = null
             t.bottom_one = null
+            t.func_all = null
             t.objs = []
             t.resolve = null
             t.reject = null
@@ -57,6 +59,9 @@ class QueueObj {
                     case 'bottom_one':
                         t.bottom_one = new bottom_one(props)
                         break
+                    case 'func_all':
+                        t.func_all = new func_all(props)
+                        break
                     default:
                         throw new Error(`appender(${props.appender}) not found`)
                 }
@@ -73,6 +78,7 @@ class QueueObj {
         try {
             var t = this
             t.objs.push(obj)
+
             return t
         } catch (e) {
             e.message = "queueObj app.js add error: " + e.message
@@ -95,6 +101,8 @@ class QueueObj {
                     return t.top_one.process(t.props)
                 case 'bottom_one':
                     return t.bottom_one.process(t.props)
+                case 'func_all':
+                    return t.func_all.process(t.props)
                 default:
                     throw new Error(`nothing to process`)
             }
