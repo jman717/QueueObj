@@ -3,7 +3,10 @@ Queue javascript objects dynamically then process the queue to completion.
 
 Included tag appenders:
 
-* all - process all added objects
+* all - process all added objects.
+* func_all - process functions to all added objects.
+* top_one - process only the object in the 0(zero) position of the process array.
+* bottom_one - process only the object in the last position of the process array.
 
 Installation
 ---------
