@@ -10,6 +10,10 @@ class test1 {
 }
 
 class test2 {
+  constructor(obj){
+    obj.add(new test4())
+  }
+
   process(callback){
     console.log(`processing all test2`.cyan)
     callback()
@@ -23,8 +27,15 @@ class test3 {
   }
 }
 
+class test4 {
+  process(callback){
+    console.log(`processing all test4`.cyan)
+    callback()
+  }
+}
+
 let qObj = new queue(), props = { appender: 'all'}
 
-qObj.load(props).add(new test1()).add(new test2()).add(new test3()).process().then(res => {
+qObj.load(props).add(new test1()).add(new test2(qObj)).add(new test3()).process().then(res => {
   console.log(`done`)
 })

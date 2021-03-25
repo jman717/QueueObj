@@ -1,5 +1,5 @@
 # QueueObj
-Queue javascript objects dynamically then process the queue to completion.
+Queue javascript objects dynamically then process the queue according to the appender.
 
 Included tag appenders:
 
@@ -7,6 +7,7 @@ Included tag appenders:
 * func_all - process functions to all added objects.
 * top_one - process only the object in the 0(zero) position of the process array.
 * bottom_one - process only the object in the last position of the process array.
+* array - process object functions in an array.
 
 Installation
 ---------

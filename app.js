@@ -6,6 +6,7 @@
 var colors = require('colors'),
     all = require('./lib/appenders/all'),
     func_all = require('./lib/appenders/func_all'),
+    array = require('./lib/appenders/array'),
     top_one = require('./lib/appenders/top_one'),
     bottom_one = require('./lib/appenders/bottom_one')
 
@@ -23,6 +24,7 @@ class QueueObj {
             t.all = null
             t.top_one = null
             t.bottom_one = null
+            t.array = null
             t.func_all = null
             t.objs = []
             t.resolve = null
@@ -39,6 +41,10 @@ class QueueObj {
 
     getBottomObjectToProcess() {
         return this.objs.pop()
+    }
+
+    getItemToProcess(itm) {
+        return this.objs[itm]
     }
 
     load(props) {
@@ -61,6 +67,9 @@ class QueueObj {
                         break
                     case 'func_all':
                         t.func_all = new func_all(props)
+                        break
+                    case 'array':
+                        t.array = new array(props)
                         break
                     default:
                         throw new Error(`appender(${props.appender}) not found`)
@@ -91,7 +100,7 @@ class QueueObj {
         return this
     }
 
-    process() {
+    process(props) {
         try {
             var t = this
             switch (t.props.appender) {
@@ -103,6 +112,8 @@ class QueueObj {
                     return t.bottom_one.process(t.props)
                 case 'func_all':
                     return t.func_all.process(t.props)
+                case 'array':
+                    return t.array.process(props)
                 default:
                     throw new Error(`nothing to process`)
             }
