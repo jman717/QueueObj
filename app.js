@@ -15,12 +15,14 @@ class QueueObj {
     constructor() {
         try {
             var t = this
+            t.id = 0
             t.appenders_dir = './lib/appenders/'
             t.props = {}
             t.load = t.load.bind(this)
             t.process = t.process.bind(this)
             t.getParent = t.getParent.bind(this)
             t.getObjectToProcess = t.getObjectToProcess.bind(this)
+            t.getObjectById = t.getObjectById.bind(this)
             t.all = null
             t.top_one = null
             t.bottom_one = null
@@ -29,10 +31,23 @@ class QueueObj {
             t.objs = []
             t.resolve = null
             t.reject = null
+            return t
         } catch (e) {
-            e.message = "log4js-tagline app.js init error: " + e.message
+            e.message = "queueObj app.js init error: " + e.message
             throw (e)
         }
+    }
+
+    getObjectById(id) {
+        let t = this, i
+        for (i = 0; i < t.objs.length; i++) {
+            if (typeof t.objs[i] != 'undefined' &&
+                typeof t.objs[i].id != 'undefined' &&
+                t.objs[i].id == id) {
+                    return t.objs[i]
+            }
+        }
+        return null
     }
 
     getObjectToProcess() {
