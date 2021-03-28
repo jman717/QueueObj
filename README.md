@@ -7,7 +7,7 @@ Included tag appenders:
 * func_all - process functions to all added objects.
 * top_one - process only the object in the 0(zero) position of the process array.
 * bottom_one - process only the object in the last position of the process array.
-* array - process object functions in an array.
+* array - process object in various ways: all, items, or byIds.
 
 Installation
 ---------
