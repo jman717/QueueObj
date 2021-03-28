@@ -56,3 +56,12 @@ qObj.process({ items: [0, 1] }).then(res => {
 })
 
 qObj.getObjectById(200).ping()
+
+qObj.process({ byIds: [100, 300] }).then(res => {
+    console.log(`done with byId: [100, 300]`.bold.italic.underline.yellow)
+})
+
+qObj.process().then(res => {
+    console.log(`done with all processing`.bold.italic.underline.green)
+})
+
