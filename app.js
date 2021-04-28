@@ -50,6 +50,16 @@ class QueueObj {
         return null
     }
 
+    count() {
+        return t.objs.length
+    }
+
+    get(num) {
+        if (num < t.objs.length)
+            return t.objs[num]
+        return false
+    }
+
     getObjectToProcess() {
         return this.objs.shift()
     }

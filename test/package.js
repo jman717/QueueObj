@@ -6,7 +6,7 @@ const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "4.3.1",
+  "version": "4.3.2",
   "bundleDependencies": false,
   "dependencies": {
     "chai": "^4.3.3",
@@ -24,6 +24,7 @@ const packageMock = {
     "appenders",
     "javascript",
     "objects",
+    "promises",
     "mocha"
   ],
   "homepage": "https://github.com/jman717/QueueObj",
