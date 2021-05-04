@@ -1,41 +1,8 @@
-# QueueObj
-Queue javascript objects dynamically then process the queue according to the appender.
-
-Included tag appenders:
-
-* all - asynchronous - process all added objects.
-* func_all - asynchronous - process custom functions to added objects.
-* top_one - asynchronous - process only the object in the 0(zero) position of the process array.
-* bottom_one - asynchronous - process only the object in the last position of the process array.
-* array - asynchronous - process object in various ways: by items, or by Ids.
-* sync - synchronous - process object in various ways: by items, or by Ids.
-
-Installation
----------
-```
-npm install QueueObj
-```
-
-Mocha Test
----------
-```
-npm test
-```
-
-General Setup Test
----------
-```
-node test_all
-node test_top_one
-node test_bottom_one
-node test_func_all
-node test_array
-
-```
-
-Usage
----------
-```js
+/*
+* @author Jim Manton: jrman@risebroadband.net
+* @since 2021-03-22
+* test_sync.js
+*/
 
 var colors = require('colors')
 
@@ -117,6 +84,3 @@ qObj.await({ byIds: [300] }).then(res => {
 qObj.process().then(res => {
     console.log(`8) done with all sync processing`.bold.italic.white)
 })
-
-```
-

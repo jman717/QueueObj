@@ -1,8 +1,18 @@
+/*
+* @author Jim Manton: jrman@risebroadband.net
+* @since 2021-03-22
+* test_array.js
+*/
+
 var colors = require('colors')
 
 var queue = require("./app.js");
 
 class test1 {
+    constructor(){
+        this.id = 100
+    }
+
     process(callback) {
         console.log(`processing test1`.cyan)
         callback()
@@ -25,6 +35,10 @@ class test2 {
 }
 
 class test3 {
+    constructor() {
+        this.id = 300
+    }
+
     process(callback) {
         console.log(`processing test3`.cyan)
         callback()
@@ -45,8 +59,8 @@ qObj.process({ items: [0, 1] }).then(res => {
             console.log(`done with items[2,1,2]`.green)
             qObj.process({ items: [2] }).then(res => {
                 console.log(`done with item[2]`.green)
-                qObj.process({ items: [6] }).then(res => {
-                    console.log(`done with item[6]`.green)
+                qObj.process({ items: [1] }).then(res => {
+                    console.log(`done with item[1]`.green)
                 }, err => {
                     console.log(err.red)
                 })
@@ -64,4 +78,3 @@ qObj.process({ byIds: [100, 300] }).then(res => {
 qObj.process().then(res => {
     console.log(`done with all processing`.bold.italic.underline.green)
 })
-

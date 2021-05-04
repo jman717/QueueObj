@@ -8,7 +8,8 @@ var colors = require('colors'),
     func_all = require('./lib/appenders/func_all'),
     array = require('./lib/appenders/array'),
     top_one = require('./lib/appenders/top_one'),
-    bottom_one = require('./lib/appenders/bottom_one')
+    bottom_one = require('./lib/appenders/bottom_one'),
+    sync = require('./lib/appenders/sync')
 
 class QueueObj {
 
@@ -18,19 +19,22 @@ class QueueObj {
             t.id = 0
             t.appenders_dir = './lib/appenders/'
             t.props = {}
-            t.load = t.load.bind(this)
-            t.process = t.process.bind(this)
-            t.getParent = t.getParent.bind(this)
-            t.getObjectToProcess = t.getObjectToProcess.bind(this)
-            t.getObjectById = t.getObjectById.bind(this)
             t.all = null
             t.top_one = null
             t.bottom_one = null
             t.array = null
+            t.sync = null
             t.func_all = null
             t.objs = []
             t.resolve = null
             t.reject = null
+
+            t.load = t.load.bind(this)
+            t.process = t.process.bind(this)
+            t.await = t.await.bind(this)
+            t.getParent = t.getParent.bind(this)
+            t.getObjectToProcess = t.getObjectToProcess.bind(this)
+            t.getObjectById = t.getObjectById.bind(this)
             return t
         } catch (e) {
             e.message = "queueObj app.js init error: " + e.message
@@ -44,7 +48,7 @@ class QueueObj {
             if (typeof t.objs[i] != 'undefined' &&
                 typeof t.objs[i].id != 'undefined' &&
                 t.objs[i].id == id) {
-                    return t.objs[i]
+                return t.objs[i]
             }
         }
         return null
@@ -96,6 +100,9 @@ class QueueObj {
                     case 'array':
                         t.array = new array(props)
                         break
+                    case 'sync':
+                        t.sync = new sync(props)
+                        break
                     default:
                         throw new Error(`appender(${props.appender}) not found`)
                 }
@@ -139,9 +146,22 @@ class QueueObj {
                     return t.func_all.process(t.props)
                 case 'array':
                     return t.array.process(props)
+                case 'sync':
+                    return t.sync.process(props)
                 default:
                     throw new Error(`nothing to process`)
             }
+        } catch (e) {
+            e.message = "queueObj app.js load error: " + e.message
+            console.log(e.message)
+            throw (e)
+        }
+    }
+
+    await(props) {
+        try {
+            var t = this
+            return t.sync.add(props)
         } catch (e) {
             e.message = "queueObj app.js load error: " + e.message
             console.log(e.message)
