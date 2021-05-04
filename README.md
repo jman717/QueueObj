@@ -39,7 +39,7 @@ Usage
 ```js
 
 var colors = require('colors')
-var queue = require("./app.js");
+var queue = require("queueobj");
 
 class test1 {
     constructor() {
