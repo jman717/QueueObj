@@ -25,6 +25,7 @@ const packageMock = {
     "javascript",
     "asynchronous",
     "synchronous",
+    "await",
     "objects",
     "promises",
     "mocha"
