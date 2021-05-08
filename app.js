@@ -6,7 +6,6 @@
 var colors = require('colors'),
     all = require('./lib/appenders/all'),
     func_all = require('./lib/appenders/func_all'),
-    array = require('./lib/appenders/array'),
     top_one = require('./lib/appenders/top_one'),
     bottom_one = require('./lib/appenders/bottom_one'),
     sync = require('./lib/appenders/sync')
@@ -119,7 +118,6 @@ class QueueObj {
         try {
             var t = this
             t.objs.push(obj)
-
             return t
         } catch (e) {
             e.message = "queueObj app.js add error: " + e.message
@@ -132,22 +130,30 @@ class QueueObj {
         return this
     }
 
-    process(props) {
+    process() {
         try {
-            var t = this
+            var t = this, pro = { items: [] }
             switch (t.props.appender) {
                 case 'all':
-                    return t.all.process(t.props)
+                    t.objs.map((item, i) => {
+                        pro.items.push(i)
+                    })
+                    t.all.await(pro)
+                    return t.all.process()
                 case 'top_one':
-                    return t.top_one.process(t.props)
+                    pro.items = [0]
+                    return t.top_one.process()
                 case 'bottom_one':
-                    return t.bottom_one.process(t.props)
+                    pro.items = [pro.items.length - 1]
+                    return t.bottom_one.process()
                 case 'func_all':
-                    return t.func_all.process(t.props)
-                case 'array':
-                    return t.array.process(props)
+                    t.objs.map((item, i) => {
+                        pro.items.push(i)
+                    })
+                    t.func_all.await(pro)
+                    return t.func_all.process()
                 case 'sync':
-                    return t.sync.process(props)
+                    return t.sync.process()
                 default:
                     throw new Error(`nothing to process`)
             }
@@ -161,7 +167,9 @@ class QueueObj {
     await(props) {
         try {
             var t = this
-            return t.sync.add(props)
+            if (t.sync != null && typeof t.sync.await == 'function') {
+                return t.sync.await(props)
+            }
         } catch (e) {
             e.message = "queueObj app.js load error: " + e.message
             console.log(e.message)

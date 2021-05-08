@@ -29,7 +29,6 @@ node test_all
 node test_top_one
 node test_bottom_one
 node test_func_all
-node test_array
 node test_sync
 
 ```

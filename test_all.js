@@ -36,6 +36,8 @@ class test4 {
 
 let qObj = new queue(), props = { appender: 'all'}
 
-qObj.load(props).add(new test1()).add(new test2(qObj)).add(new test3()).process().then(res => {
+qObj.load(props).add(new test1()).add(new test2(qObj)).add(new test3()).process({}).then(res => {
   console.log(`done`)
+}, err => {
+  console.log(`errors with all processing: (${err})`.red)
 })
