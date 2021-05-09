@@ -46,9 +46,20 @@ class test3 {
     }
 }
 
+class test4 {
+    constructor() {
+        this.id = 400
+    }
+
+    custom_function(callback) {
+        console.log(`custom_function test4`.cyan)
+        callback()
+    }
+}
+let tst4 = new test4()
 let qObj = new queue(), props = { appender: 'sync' }
 
-qObj.load(props).add(new test1()).add(new test2()).add(new test3())
+qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(tst4.custom_function)
 
 qObj.await({ items: [0, 1] }).then(res => {
     console.log(`1) done with items[0,1]: (${res})`.green)
@@ -68,10 +79,10 @@ qObj.await({ items: [2, 1, 2] }).then(res => {
     console.log(`3) error[2, 1, 2]: (${err})`.red)
 })
 
-qObj.await({ items: [2] }).then(res => {
-    console.log(`4) done with item[2]: (${res})`.green)
+qObj.await({ items: [2, 3] }).then(res => {
+    console.log(`4) done with item[2, 3]: (${res})`.green)
 }, err => {
-    console.log(`4) error[2]: (${err})`.red)
+    console.log(`4) error[2, 3]: (${err})`.red)
 })
 
 qObj.await({ items: [0] }).then(res => {
@@ -88,10 +99,10 @@ qObj.await({ byIds: [300, 200, 100] }).then(res => {
     console.log(`6) error[300, 200, 100]: (${err})`.red)
 })
 
-qObj.await({ byIds: [300] }).then(res => {
-    console.log(`7) done with byId: [300] (${res})`.bold.italic.underline.yellow)
+qObj.await({ byIds: [100, 300] }).then(res => {
+    console.log(`7) done with byId: [100, 300] (${res})`.bold.italic.underline.yellow)
 }, err => {
-    console.log(`7) error[300]: (${err})`.red)
+    console.log(`7) error[100, 300]: (${err})`.red)
 })
 
 qObj.process().then(res => {

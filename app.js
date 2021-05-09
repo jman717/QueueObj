@@ -47,7 +47,7 @@ class QueueObj {
             if (typeof t.objs[i] != 'undefined' &&
                 typeof t.objs[i].id != 'undefined' &&
                 t.objs[i].id == id) {
-                return t.objs[i]
+                    return t.objs[i]
             }
         }
         return null

@@ -7,8 +7,7 @@ Included tag appenders:
 * func_all - asynchronous - process custom functions to added objects.
 * top_one - asynchronous - process only the object in the 0(zero) position of the process array.
 * bottom_one - asynchronous - process only the object in the last position of the process array.
-* array - asynchronous - process object in various ways: by items, or by Ids.
-* sync - synchronous - process object in various ways: by items, or by Ids.
+* sync - synchronous - process array objects in various ways: by items, by Ids as well as custom functions.
 
 Installation
 ---------
@@ -40,48 +39,7 @@ Usage
 var colors = require('colors')
 var queue = require("queueobj");
 
-class test1 {
-    constructor() {
-        this.id = 100
-    }
-
-    process(callback) {
-        console.log(`processing test1`.cyan)
-        callback()
-    }
-}
-
-class test2 {
-    constructor() {
-        this.id = 200
-    }
-
-    process(callback) {
-        let msg = `some kinda problem here`
-        console.log(`processing test2`.cyan)
-        callback({error: {msg: msg}})  //this will show errors
-        //callback()  //this will show no errors
-    }
-
-    ping() {
-        console.log('hello from test2'.rainbow)
-    }
-}
-
-class test3 {
-    constructor() {
-        this.id = 300
-    }
-
-    process(callback) {
-        console.log(`processing test3`.cyan)
-        callback()
-    }
-}
-
-let qObj = new queue(), props = { appender: 'sync' }
-
-qObj.load(props).add(new test1()).add(new test2()).add(new test3())
+qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(tst4.custom_function)
 
 qObj.await({ items: [0, 1] }).then(res => {
     console.log(`1) done with items[0,1]: (${res})`.green)
@@ -101,10 +59,10 @@ qObj.await({ items: [2, 1, 2] }).then(res => {
     console.log(`3) error[2, 1, 2]: (${err})`.red)
 })
 
-qObj.await({ items: [2] }).then(res => {
-    console.log(`4) done with item[2]: (${res})`.green)
+qObj.await({ items: [2, 3] }).then(res => {
+    console.log(`4) done with item[2, 3]: (${res})`.green)
 }, err => {
-    console.log(`4) error[2]: (${err})`.red)
+    console.log(`4) error[2, 3]: (${err})`.red)
 })
 
 qObj.await({ items: [0] }).then(res => {
@@ -121,10 +79,10 @@ qObj.await({ byIds: [300, 200, 100] }).then(res => {
     console.log(`6) error[300, 200, 100]: (${err})`.red)
 })
 
-qObj.await({ byIds: [300] }).then(res => {
-    console.log(`7) done with byId: [300] (${res})`.bold.italic.underline.yellow)
+qObj.await({ byIds: [100, 300] }).then(res => {
+    console.log(`7) done with byId: [100, 300] (${res})`.bold.italic.underline.yellow)
 }, err => {
-    console.log(`7) error[300]: (${err})`.red)
+    console.log(`7) error[100, 300]: (${err})`.red)
 })
 
 qObj.process().then(res => {
