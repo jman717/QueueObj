@@ -26,8 +26,8 @@ class test2 {
     process(callback) {
         let msg = `some kinda problem here`
         console.log(`processing test2`.cyan)
-        callback({error: {msg: msg}})  //this will show errors
-        //callback()  //this will show no errors
+        //callback({error: {msg: msg}})  //this will show errors
+        callback()  //this will show no errors
     }
 
     ping() {
@@ -48,12 +48,16 @@ class test3 {
 
 class test4 {
     constructor() {
-        this.id = 400
+        let t = this
+        t.id = 400
+        t.custom_function = t.custom_function.bind(this)
     }
 
     custom_function(callback) {
-        console.log(`custom_function test4`.cyan)
-        callback()
+        let msg = `custom func problem here id(${this.id})`
+        console.log(`processing test4`.cyan)
+        callback({error: {msg: msg}})  //this will show errors
+        //callback()  //this will show no errors
     }
 }
 let tst4 = new test4()

@@ -8,7 +8,8 @@ var colors = require('colors'),
     func_all = require('./lib/appenders/func_all'),
     top_one = require('./lib/appenders/top_one'),
     bottom_one = require('./lib/appenders/bottom_one'),
-    sync = require('./lib/appenders/sync')
+    sync = require('./lib/appenders/sync'),
+    sync_all = require('./lib/appenders/sync_all')
 
 class QueueObj {
 
@@ -23,6 +24,7 @@ class QueueObj {
             t.bottom_one = null
             t.array = null
             t.sync = null
+            t.sync_all = null
             t.func_all = null
             t.objs = []
             t.resolve = null
@@ -47,7 +49,7 @@ class QueueObj {
             if (typeof t.objs[i] != 'undefined' &&
                 typeof t.objs[i].id != 'undefined' &&
                 t.objs[i].id == id) {
-                    return t.objs[i]
+                return t.objs[i]
             }
         }
         return null
@@ -100,6 +102,7 @@ class QueueObj {
                         t.array = new array(props)
                         break
                     case 'sync':
+                    case 'sync_all':
                         t.sync = new sync(props)
                         break
                     default:
@@ -153,6 +156,16 @@ class QueueObj {
                     t.func_all.await(pro)
                     return t.func_all.process()
                 case 'sync':
+                    return t.sync.process()
+                case 'sync_all':
+                    t.objs.map((item, i) => {
+                        pro.items.push(i)
+                    })
+                    t.sync.await(pro).then(res => {
+                        console.log(`done with ${JSON.stringify(pro)}: (${res})`.green)
+                    }, err => {
+                        console.log(`error ${JSON.stringify(pro)}: (${err})`.red)
+                    })
                     return t.sync.process()
                 default:
                     throw new Error(`nothing to process`)
