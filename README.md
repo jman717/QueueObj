@@ -39,6 +39,58 @@ Usage
 var colors = require('colors')
 var queue = require("queueobj");
 
+class test1 {
+    constructor() {
+        this.id = 100
+    }
+
+    process(callback) {
+        console.log(`processing test1`.cyan)
+        callback()
+    }
+}
+
+class test2 {
+    constructor() {
+        this.id = 200
+    }
+
+    process(callback) {
+        let msg = `some kinda problem here`
+        console.log(`processing test2`.cyan)
+        callback({error: {msg: msg}})  //this will show errors
+        //callback()  //this will show no errors
+    }
+
+    ping() {
+        console.log('hello from test2'.rainbow)
+    }
+}
+
+class test3 {
+    constructor() {
+        this.id = 300
+    }
+
+    process(callback) {
+        console.log(`processing test3`.cyan)
+        callback()
+    }
+}
+
+class test4 {
+    constructor() {
+        this.id = 400
+    }
+
+    custom_function(callback) {
+        console.log(`custom_function test4`.cyan)
+        callback()
+    }
+}
+let tst4 = new test4()
+let qObj = new queue(), props = { appender: 'sync' }
+
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(tst4.custom_function)
 
 qObj.await({ items: [0, 1] }).then(res => {
