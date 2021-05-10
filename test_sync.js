@@ -41,8 +41,11 @@ class test3 {
     }
 
     process(callback) {
-        console.log(`processing test3`.cyan)
-        callback()
+        setTimeout(()=>{
+            console.log(`processing test3`.cyan)
+            console.log(`some async process`)
+            callback()
+        }, 2000)
     }
 }
 
