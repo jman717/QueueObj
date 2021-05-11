@@ -9,7 +9,8 @@ var colors = require('colors'),
     top_one = require('./lib/appenders/top_one'),
     bottom_one = require('./lib/appenders/bottom_one'),
     sync = require('./lib/appenders/sync'),
-    sync_all = require('./lib/appenders/sync_all')
+    sync_all = require('./lib/appenders/sync_all'),
+    status = require('./lib/appenders/status')
 
 class QueueObj {
 
@@ -24,6 +25,7 @@ class QueueObj {
             t.bottom_one = null
             t.array = null
             t.sync = null
+            t.status = null
             t.sync_all = null
             t.func_all = null
             t.objs = []
@@ -36,6 +38,7 @@ class QueueObj {
             t.getParent = t.getParent.bind(this)
             t.getObjectToProcess = t.getObjectToProcess.bind(this)
             t.getObjectById = t.getObjectById.bind(this)
+            t.getObjs = t.getObjs.bind(this)
             return t
         } catch (e) {
             e.message = "queueObj app.js init error: " + e.message
@@ -49,6 +52,18 @@ class QueueObj {
             if (typeof t.objs[i] != 'undefined' &&
                 typeof t.objs[i].id != 'undefined' &&
                 t.objs[i].id == id) {
+                return t.objs[i]
+            }
+        }
+        return null
+    }
+
+    getObjectByStatus(status) {
+        let t = this, i
+        for (i = 0; i < t.objs.length; i++) {
+            if (typeof t.objs[i] != 'undefined' &&
+                typeof t.objs[i].status != 'undefined' &&
+                t.objs[i].status == status) {
                 return t.objs[i]
             }
         }
@@ -101,6 +116,9 @@ class QueueObj {
                     case 'array':
                         t.array = new array(props)
                         break
+                    case 'status':
+                        t.status = new status(props)
+                        break
                     case 'sync':
                     case 'sync_all':
                         t.sync = new sync(props)
@@ -133,6 +151,10 @@ class QueueObj {
         return this
     }
 
+    getObjs() {
+        return this.objs
+    }
+
     process() {
         try {
             var t = this, pro = { items: [] }
@@ -157,6 +179,8 @@ class QueueObj {
                     return t.func_all.process()
                 case 'sync':
                     return t.sync.process()
+                case 'status':
+                    return t.status.process()
                 case 'sync_all':
                     t.objs.map((item, i) => {
                         pro.items.push(i)
@@ -180,9 +204,10 @@ class QueueObj {
     await(props) {
         try {
             var t = this
-            if (t.sync != null && typeof t.sync.await == 'function') {
+            if (t.sync != null)
                 return t.sync.await(props)
-            }
+            if (t.status != null)
+                return t.status.await(props)
         } catch (e) {
             e.message = "queueObj app.js load error: " + e.message
             console.log(e.message)

@@ -9,6 +9,7 @@ Included tag appenders:
 * bottom_one - asynchronous - process only the object in the last position of the process array.
 * sync - synchronous - process array objects in various ways: by items, by Ids as well as custom functions.
 * sync_all - synchronous - queue and process all objects by items as well as custom functions.
+* status - synchronous - queue and process all objects by status.
 
 Installation
 ---------
@@ -31,6 +32,7 @@ node test_bottom_one
 node test_func_all
 node test_sync
 node test_sync_all
+node test_status
 
 ```
 
