@@ -95,12 +95,12 @@ class test4 {
     custom_function(callback) {
         let msg = `custom func problem here id(${this.id})`
         console.log(`processing test4`.cyan)
-        callback({error: {msg: msg}})  //this will show errors
-        //callback()  //this will show no errors
+        //callback({error: {msg: msg}})  //this will show errors
+        callback()  //this will show no errors
     }
 }
 let tst4 = new test4()
-let qObj = new queue(), props = { appender: 'sync' }
+let qObj = new queue(), props = { appender: 'sync', stats: true }
 
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(tst4.custom_function)
 

@@ -26,6 +26,7 @@ class QueueObj {
             t.array = null
             t.sync = null
             t.status = null
+            t.stats = false
             t.sync_all = null
             t.func_all = null
             t.objs = []
@@ -46,6 +47,10 @@ class QueueObj {
         }
     }
 
+    getStats (){
+        return this.stats
+    }
+    
     getObjectById(id) {
         let t = this, i
         for (i = 0; i < t.objs.length; i++) {
@@ -96,6 +101,7 @@ class QueueObj {
         try {
             var t = this
             t.props = props
+            t.stats = (typeof props.stats != 'undefined') ?  props.stats : false;
             if (typeof props != `undefined` &&
                 typeof props.appender != `undefined` &&
                 typeof props.appender == 'string') {

@@ -34,7 +34,7 @@ class test4 {
   }
 }
 
-let qObj = new queue(), props = { appender: 'all'}
+let qObj = new queue(), props = { appender: 'all', stats: true}
 
 qObj.load(props).add(new test1()).add(new test2(qObj)).add(new test3()).process({}).then(res => {
   console.log(res)
