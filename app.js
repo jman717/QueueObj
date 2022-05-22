@@ -106,7 +106,7 @@ class QueueObj {
                 typeof props.appender != `undefined` &&
                 typeof props.appender == 'string') {
                 props.getParent = t.getParent
-                switch (props.appender) {  //jrm debug 9/10
+                switch (props.appender) {  
                     case 'all':
                         t.all = new all(props)
                         break
