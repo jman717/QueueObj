@@ -23,24 +23,10 @@ class test3 {
     }
 }
 
-let qObj = new queue(), props = { appender: 'bottom_one' }
+let qObj = new queue(), props = { appender: 'bottom_one', stats: true}
 
-qObj.load(props).add(new test1()).add(new test2()).add(new test3())
-
-qObj.process().then(res => {
-    console.log(`done with 3rd obj`.green)
-})
-
-qObj.process().then(res => {
-    console.log(`done with 2nd obj`.green)
-})
-
-qObj.process().then(res => {
-    console.log(`done with 1st obj`.green)
-})
-
-qObj.process().then(res => {
-    console.log(`done with 1st obj`.green)
+qObj.load(props).add(new test1()).add(new test2(qObj)).add(new test3()).process({}).then(res => {
+  console.log(res)
 }, err => {
-    console.log(err.red)   
+  console.log(`errors with bottom item processing: (${err})`.red)
 })

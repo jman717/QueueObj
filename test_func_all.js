@@ -41,6 +41,6 @@ let tst1 = new test1(),
     tst3 = new test3(qObj, tst4)
 
 qObj.load(props).add(tst1.some_function).add(tst2.a_func).add(tst3.cool).process().then(res => {
-    console.log(`done`)
+    console.log(`success processing`.green)
 })
 

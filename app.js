@@ -10,7 +10,8 @@ var colors = require('colors'),
     bottom_one = require('./lib/appenders/bottom_one'),
     sync = require('./lib/appenders/sync'),
     sync_all = require('./lib/appenders/sync_all'),
-    status = require('./lib/appenders/status')
+    status = require('./lib/appenders/status'),
+    version = require('./lib/appenders/version')
 
 class QueueObj {
 
@@ -24,8 +25,8 @@ class QueueObj {
             t.top_one = null
             t.bottom_one = null
             t.array = null
-            t.sync = null
             t.status = null
+            t.version = null
             t.stats = false
             t.sync_all = null
             t.func_all = null
@@ -47,10 +48,10 @@ class QueueObj {
         }
     }
 
-    getStats (){
+    getStats() {
         return this.stats
     }
-    
+
     getObjectById(id) {
         let t = this, i
         for (i = 0; i < t.objs.length; i++) {
@@ -75,13 +76,25 @@ class QueueObj {
         return null
     }
 
+    getObjectByVersion(version) {
+        let t = this, i
+        for (i = 0; i < t.objs.length; i++) {
+            if (typeof t.objs[i] != 'undefined' &&
+                typeof t.objs[i].version != 'undefined' &&
+                t.objs[i].version == version) {
+                return t.objs[i]
+            }
+        }
+        return null
+    }
+
     count() {
-        return t.objs.length
+        return this.objs.length
     }
 
     get(num) {
-        if (num < t.objs.length)
-            return t.objs[num]
+        if (num < this.objs.length)
+            return this.objs[num]
         return false
     }
 
@@ -101,12 +114,12 @@ class QueueObj {
         try {
             var t = this
             t.props = props
-            t.stats = (typeof props.stats != 'undefined') ?  props.stats : false;
+            t.stats = (typeof props.stats != 'undefined') ? props.stats : false;
             if (typeof props != `undefined` &&
                 typeof props.appender != `undefined` &&
                 typeof props.appender == 'string') {
                 props.getParent = t.getParent
-                switch (props.appender) {  
+                switch (props.appender) {
                     case 'all':
                         t.all = new all(props)
                         break
@@ -125,9 +138,11 @@ class QueueObj {
                     case 'status':
                         t.status = new status(props)
                         break
-                    case 'sync':
+                    case 'version':
+                        t.version = new version(props)
+                        break
                     case 'sync_all':
-                        t.sync = new sync(props)
+                        t.sync_all = new sync_all(props)
                         break
                     default:
                         throw new Error(`appender(${props.appender}) not found`)
@@ -142,13 +157,55 @@ class QueueObj {
     }
 
     add(obj) {
+        var t = this
         try {
-            var t = this
+            if (t.all != null) {
+                obj.getType = (o) => {
+                    return 'all'
+                }
+            }
+            if (t.top_one != null) {
+                obj.getType = (o) => {
+                    return 'top_one'
+                }
+            }
+            if (t.bottom_one != null) {
+                t.objs = []
+                obj.getType = (o) => {
+                    return 'bottom_one'
+                }
+            }
+            if (t.func_all != null) {
+                obj.getType = (o) => {
+                    return 'func_all'
+                }
+            }
+            if (t.sync_all != null) {
+                obj.getType = (o) => {
+                    return 'sync_all'
+                }
+            }
+            if (typeof obj.status != 'undefined') {
+                obj.getType = (o) => {
+                    return o.status
+                }
+            }
+            if (typeof obj.version != 'undefined') {
+                obj.getType = (o) => {
+                    return o.version
+                }
+            }
+            if (t.top_one != null) {
+                if (t.objs.length == 0) {
+                    t.objs.push(obj)
+                }
+                return t
+            }
             t.objs.push(obj)
             return t
         } catch (e) {
             e.message = "queueObj app.js add error: " + e.message
-            console.log(e.message)
+            console.log(e.message.red)
             throw (e)
         }
     }
@@ -163,57 +220,68 @@ class QueueObj {
 
     process() {
         try {
-            var t = this, pro = { items: [] }
-            switch (t.props.appender) {
+            var t = this, pro = { dat_array: [] }
+            switch (t.props.appender) {  
                 case 'all':
-                    t.objs.map((item, i) => {
-                        pro.items.push(i)
-                    })
+                    pro.dat_array.push('all')
                     t.all.await(pro)
                     return t.all.process()
                 case 'top_one':
-                    pro.items = [0]
+                    pro.dat_array.push('top_one')
+                    t.top_one.await(pro)
                     return t.top_one.process()
                 case 'bottom_one':
-                    pro.items = [pro.items.length - 1]
+                    pro.dat_array.push('bottom_one')
+                    t.bottom_one.await(pro)
                     return t.bottom_one.process()
                 case 'func_all':
-                    t.objs.map((item, i) => {
-                        pro.items.push(i)
-                    })
+                    pro.dat_array.push('func_all')
                     t.func_all.await(pro)
                     return t.func_all.process()
                 case 'sync':
-                    return t.sync.process()
+                case 'sync_all':
+                    pro.dat_array.push('sync_all')
+                    t.sync_all.await(pro)
+                    return t.sync_all.process()
                 case 'status':
                     return t.status.process()
-                case 'sync_all':
-                    t.objs.map((item, i) => {
-                        pro.items.push(i)
-                    })
-                    t.sync.await(pro).then(res => {
-                        console.log(`done with ${JSON.stringify(pro)}: (${res})`.green)
-                    }, err => {
-                        console.log(`error ${JSON.stringify(pro)}: (${err})`.red)
-                    })
-                    return t.sync.process()
+                case 'version':
+                    return t.version.process()
+                // case 'sync_all':
+                //     t.objs.map((item, i) => {
+                //         pro.items.push(i)
+                //     })
+                //     t.sync.await(pro).then(res => {
+                //         console.log(`done with ${JSON.stringify(pro)}: (${res})`.green)
+                //     }, err => {
+                //         console.log(`error ${JSON.stringify(pro)}: (${err})`.red)
+                //     })
+                //     return t.sync.process()
                 default:
                     throw new Error(`nothing to process`)
             }
         } catch (e) {
             e.message = "queueObj app.js load error: " + e.message
-            console.log(e.message)
+            console.log(e.message.red)
             throw (e)
         }
     }
 
     await(props) {
+        var t = this, pro
         try {
-            var t = this
-            if (t.sync != null)
+            if (t.sync != null) {
+                pro = { dat_array: props.items }
                 return t.sync.await(props)
-            if (t.status != null)
-                return t.status.await(props)
+            }
+            if (t.status != null) {
+                pro = { dat_array: props.status }
+                return t.status.await(pro)
+            }
+            if (t.version != null) {
+                pro = { dat_array: props.version }
+                return t.version.await(pro)
+            }
         } catch (e) {
             e.message = "queueObj app.js load error: " + e.message
             console.log(e.message)

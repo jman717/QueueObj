@@ -69,7 +69,7 @@ let qObj = new queue(), props = { appender: 'sync_all' }
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(tst4.custom_function)
 
 qObj.process().then(res => {
-    console.log(`done with all sync processing: (${res})`.bold.italic.white)
+    console.log(`done with all sync processing: (${res})`.bold.italic.blue)
 }, err => {
     console.log(`errors with all sync processing: (${err})`.red)
 })

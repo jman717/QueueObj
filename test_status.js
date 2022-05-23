@@ -36,9 +36,9 @@ class test2 {
         let t = this, msg = `some kinda problem here`
         console.log(`processing test2`.cyan)
         t.status = "error"
-        callback({error: {msg: msg}})  //this will show errors
-        //t.status = "done"
-        //callback()  //this will show no errors
+        // callback({error: {msg: msg}})  //this will show errors
+        t.status = "done"
+        callback()  //this will show no errors
     }
 
     ping() {
@@ -56,12 +56,10 @@ class test3 {
     }
 
     process(callback) {
-        setTimeout(()=>{
-            console.log(`processing test3`.cyan)
-            console.log(`some async process`)
-            this.status = "done"
-            callback()
-        }, 2000)
+        console.log(`processing test3`.cyan)
+        console.log(`some async process`)
+        this.status = "done"
+        callback()
     }
 }
 
@@ -70,10 +68,13 @@ class test4 {
         let t = this
         t.id = 400
         t.status = "new"
+
+        t.process = t.process.bind(t)
     }
 
     process(callback) {
         console.log(`processing test4`.cyan)
+        this.status = "done"
         callback()
     }
 }
