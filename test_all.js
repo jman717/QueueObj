@@ -4,8 +4,7 @@ var queue = require("./app.js");
 
 class test1 {
   process(callback){
-    console.log(`processing all test1`.cyan)
-    callback()
+    callback({success: `processing all test1`})
   }
 }
 
@@ -15,22 +14,19 @@ class test2 {
   }
 
   process(callback){
-    console.log(`processing all test2`.cyan)
-    callback()
+    callback({success: `processing all test2`})
   }
 }
 
 class test3 {
   process(callback){
-    console.log(`processing all test3`.cyan)
-    callback()
+    callback({success: `processing all test3`})
   }
 }
 
 class test4 {
   process(callback){
-    console.log(`processing all test4`.cyan)
-    callback()
+    callback({success: `processing all test4`})
   }
 }
 

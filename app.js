@@ -8,7 +8,6 @@ var colors = require('colors'),
     func_all = require('./lib/appenders/func_all'),
     top_one = require('./lib/appenders/top_one'),
     bottom_one = require('./lib/appenders/bottom_one'),
-    sync = require('./lib/appenders/sync'),
     sync_all = require('./lib/appenders/sync_all'),
     status = require('./lib/appenders/status'),
     version = require('./lib/appenders/version')
