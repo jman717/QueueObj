@@ -20,7 +20,8 @@ class test2 {
 
 class test3 {
   process(callback){
-    callback({success: `processing all test3`})
+    // callback({success: `processing all test3`})
+    callback({error: {msg: `error test3`}})
   }
 }
 
