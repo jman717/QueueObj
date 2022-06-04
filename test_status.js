@@ -17,9 +17,7 @@ class test1 {
     }
 
     process(callback) {
-        console.log(`processing test1`.cyan)
-        this.status = "done"
-        callback()
+        callback({success: {msg: `processing test1 id(${this.id}) status(${this.status})`}})
     }
 }
 
@@ -27,18 +25,15 @@ class test2 {
     constructor() {
         let t = this
         t.id = 200
-        t.status = "new"
+        t.status = "error"
 
         t.process = t.process.bind(t)
     }
 
     process(callback) {
         let t = this, msg = `some kinda problem here`
-        console.log(`processing test2`.cyan)
-        t.status = "error"
         // callback({error: {msg: msg}})  //this will show errors
-        t.status = "done"
-        callback()  //this will show no errors
+        callback({success: {msg: `processing test2 id(${this.id}) status(${this.status})`}})  //this will show no errors
     }
 
     ping() {
@@ -56,10 +51,7 @@ class test3 {
     }
 
     process(callback) {
-        console.log(`processing test3`.cyan)
-        console.log(`some async process`)
-        this.status = "done"
-        callback()
+        callback({success: {msg: `processing test3 id(${this.id}) status(${this.status})`}})  //this will show no errors
     }
 }
 
@@ -73,30 +65,22 @@ class test4 {
     }
 
     process(callback) {
-        console.log(`processing test4`.cyan)
-        this.status = "done"
-        callback()
+        callback({success: {msg: `processing test4 id(${this.id}) status(${this.status})`}})  //this will show no errors
     }
 }
 
-let qObj = new queue(), props = { appender: 'status' }
+let qObj = new queue(), props = { appender: 'status', stats: true }
 
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(new test4())
 
-qObj.await({ status: ['new', 'secondary'] }).then(res => {
-    console.log(`1) done with status'[new', 'secondary']: (${res})`.green)
+qObj.process({ property: 'status', items: ['new', 'secondary'] }).then(res => {
+    console.log(`success with status processing: (${JSON.stringify(res)})`.bold.italic.green)
 }, err => {
-    console.log(`1) error['new', 'secondary']: (${err})`.red)
+    console.log(`errors with status processing: (${JSON.stringify(err)})`.red)
 })
 
-qObj.await({ status: ['third'] }).then(res => {
-    console.log(`2) done with status['third']: (${res})`.green)
-}, err => {
-    console.log(`2) error['third']: (${err})`.red)
-})
-
-qObj.process().then(res => {
-    console.log(`3) done with status processing: (${res})`.bold.italic.blue)
-}, err => {
-    console.log(`3) errors with status processing: (${err})`.red)
-})
+// qObj.process({ property: 'status', items: ['error'] }).then(res => {
+//     console.log(`success with status error processing: (${JSON.stringify(res)})`.bold.italic.green)
+// }, err => {
+//     console.log(`errors with status error processing: (${JSON.stringify(err)})`.red)
+// })

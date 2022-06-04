@@ -3,11 +3,11 @@ Queue javascript objects dynamically then process the queue according to the app
 
 Included tag appenders:
 
-* all - asynchronous - process all added objects.
-* func_all - asynchronous - process custom functions to added objects.
-* top_one - asynchronous - process only the object in the 0(zero) position of the process array.
-* bottom_one - asynchronous - process only the object in the last position of the process array.
-* sync_all - synchronous - queue and process all objects by items as well as custom functions.
+* all - synchronous - process all added objects.
+* func_all - synchronous - process custom functions to added objects.
+* top_one - synchronous - process only the object in the 0(zero) position of the process array.
+* bottom_one - synchronous - process only the object in the last position of the process array.
+* sync_all - synchronous - All appenders are synchronous now. Sync_all is no different than all .
 * status - synchronous - queue and process all objects by status.
 * version - synchronous - queue and process all objects by version.
 

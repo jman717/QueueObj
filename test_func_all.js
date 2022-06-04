@@ -4,15 +4,13 @@ var queue = require("./app.js");
 
 class test1 {
     some_function(callback) {
-        console.log(`some_function test1`.cyan)
-        callback()
+        callback({success: {msg: `some_function test1`}})
     }
 }
 
 class test2 {
     a_func(callback) {
-        console.log(`a_func test2`.cyan)
-        callback()
+        callback({success: {msg: `a_func test2`}})
     }
 }
 
@@ -21,15 +19,13 @@ class test3 {
         obj.add(run_func.some_new_func)
     }
     cool(callback) {
-        console.log(`cool test3`.cyan)
-        callback()
+        callback({success: {msg: `cool test3`}})
     }
 }
 
 class test4 {
     some_new_func(callback) {
-        console.log(`some_new_func test4`.cyan)
-        callback()
+        callback({success: {msg: `some_new_func test4`}})
     }
 }
 
@@ -41,6 +37,8 @@ let tst1 = new test1(),
     tst3 = new test3(qObj, tst4)
 
 qObj.load(props).add(tst1.some_function).add(tst2.a_func).add(tst3.cool).process().then(res => {
-    console.log(`success processing`.green)
+    console.log(`success with func_all processing: (${JSON.stringify(res)})`.bold.italic.green)
+}, err => {
+    console.log(`errors with func_all processing: (${JSON.stringify(err)})`.red)
 })
 

@@ -10,13 +10,14 @@ var queue = require("./app.js");
 class test1 {
     constructor() {
         this.id = 100
+        this.process = this.process.bind(this)
     }
 
     process(callback) {
-        setTimeout(()=>{
+        setTimeout(() => {
             console.log(`processing test1`.cyan)
             console.log(`some async process`)
-            callback()
+            callback({success: {msg: `processing all (${this.id})`}})
         }, 3000)
     }
 }
@@ -24,13 +25,13 @@ class test1 {
 class test2 {
     constructor() {
         this.id = 200
+        this.process = this.process.bind(this)
     }
 
     process(callback) {
-        let msg = `some kinda problem here`
-        console.log(`processing test2`.cyan)
-        //callback({error: {msg: msg}})  //this will show errors
-        callback()  //this will show no errors
+        let msg = `some kinda problem here in id(${this.id})`
+        // callback({error: {msg: msg}})  //this will show errors
+        callback({success: {msg: `processing all (${this.id})}`}})   //this will show no errors
     }
 
     ping() {
@@ -41,11 +42,11 @@ class test2 {
 class test3 {
     constructor() {
         this.id = 300
+        this.process = this.process.bind(this)
     }
 
     process(callback) {
-        console.log(`processing test3`.cyan)
-        callback()
+        callback({success: {msg: `processing all (${this.id})}`}})   
     }
 }
 
@@ -58,9 +59,10 @@ class test4 {
 
     custom_function(callback) {
         let msg = `custom func problem here id(${this.id})`
-        console.log(`processing test4`.cyan)
-        //callback({error: {msg: msg}})  //this will show errors
-        callback()  //this will show no errors
+        setTimeout(() => {
+            // callback({error: {msg: msg}})  //this will show errors
+            callback({success: {msg: `processing all (${this.id})}`}})   //this will show no errors
+        }, 3000)
     }
 }
 let tst4 = new test4()
@@ -69,9 +71,9 @@ let qObj = new queue(), props = { appender: 'sync_all' }
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(tst4.custom_function)
 
 qObj.process().then(res => {
-    console.log(`done with all sync processing: (${res})`.bold.italic.blue)
+    console.log(`success with all sync processing: (${JSON.stringify(res)})`.bold.italic.green)
 }, err => {
-    console.log(`errors with all sync processing: (${err})`.red)
+    console.log(`errors with all sync processing: (${JSON.stringify(err)})`.red)
 })
 
 

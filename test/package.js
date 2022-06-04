@@ -6,7 +6,7 @@ const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "8.0.2",
+  "version": "9.0.0",
   "bundleDependencies": false,
   "dependencies": {
     "chai": "^4.3.3",
@@ -23,9 +23,7 @@ const packageMock = {
     "processing",
     "appenders",
     "javascript",
-    "asynchronous",
     "synchronous",
-    "await",
     "objects",
     "promises",
     "mocha"

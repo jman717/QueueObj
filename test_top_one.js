@@ -4,29 +4,27 @@ var queue = require("./app.js");
 
 class test1 {
   process(callback){
-    console.log(`processing test1`.cyan)
-    callback()
+    callback({success: {msg: `processing test1`}})
   }
 }
 
 class test2 {
   process(callback){
-    console.log(`processing test2`.cyan)
-    callback()
+    callback({success: {msg: `processing test2`}})
   }
 }
 
 class test3 {
   process(callback){
-    console.log(`processing test3`.cyan)
-    callback()
+    callback({success: {msg: `processing test3`}})
   }
 }
 
 let qObj = new queue(), props = { appender: 'top_one', stats: true}
 
 qObj.load(props).add(new test1()).add(new test2(qObj)).add(new test3()).process({}).then(res => {
-  console.log(res)
+  console.log(`success with all sync processing: (${JSON.stringify(res)})`.bold.italic.green)
 }, err => {
-  console.log(`errors with top item processing: (${err})`.red)
+    console.log(`errors with all sync processing: (${JSON.stringify(err)})`.red)
 })
+

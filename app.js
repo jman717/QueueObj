@@ -35,7 +35,6 @@ class QueueObj {
 
             t.load = t.load.bind(this)
             t.process = t.process.bind(this)
-            t.await = t.await.bind(this)
             t.getParent = t.getParent.bind(this)
             t.getObjectToProcess = t.getObjectToProcess.bind(this)
             t.getObjectById = t.getObjectById.bind(this)
@@ -159,38 +158,39 @@ class QueueObj {
         var t = this
         try {
             if (t.all != null) {
-                obj.getType = (o) => {
+                obj._getProperty = (o) => {
                     return 'all'
                 }
             }
             if (t.top_one != null) {
-                obj.getType = (o) => {
+                obj._getProperty = (o) => {
                     return 'top_one'
                 }
             }
             if (t.bottom_one != null) {
                 t.objs = []
-                obj.getType = (o) => {
+                obj._getProperty = (o) => {
                     return 'bottom_one'
                 }
             }
             if (t.func_all != null) {
-                obj.getType = (o) => {
+                obj._getProperty = (o) => {
                     return 'func_all'
                 }
             }
             if (t.sync_all != null) {
-                obj.getType = (o) => {
+                obj._getProperty = (o) => {
                     return 'sync_all'
                 }
             }
             if (typeof obj.status != 'undefined') {
-                obj.getType = (o) => {
+                obj._getProperty = (o) => {
                     return o.status
                 }
+
             }
             if (typeof obj.version != 'undefined') {
-                obj.getType = (o) => {
+                obj._getProperty = (o) => {
                     return o.version
                 }
             }
@@ -217,73 +217,31 @@ class QueueObj {
         return this.objs
     }
 
-    process() {
+    process(props = {}) {
         try {
-            var t = this, pro = { dat_array: [] }
-            switch (t.props.appender) {  
+            var t = this
+            switch (t.props.appender) {
                 case 'all':
-                    pro.dat_array.push('all')
-                    t.all.await(pro)
-                    return t.all.process()
+                    return t.all.process(props)
                 case 'top_one':
-                    pro.dat_array.push('top_one')
-                    t.top_one.await(pro)
-                    return t.top_one.process()
+                    return t.top_one.process(props)
                 case 'bottom_one':
-                    pro.dat_array.push('bottom_one')
-                    t.bottom_one.await(pro)
-                    return t.bottom_one.process()
+                    return t.bottom_one.process(props)
                 case 'func_all':
-                    pro.dat_array.push('func_all')
-                    t.func_all.await(pro)
-                    return t.func_all.process()
+                    return t.func_all.process(props)
                 case 'sync':
                 case 'sync_all':
-                    pro.dat_array.push('sync_all')
-                    t.sync_all.await(pro)
-                    return t.sync_all.process()
+                    return t.sync_all.process(props)
                 case 'status':
-                    return t.status.process()
+                    return t.status.process(props)
                 case 'version':
-                    return t.version.process()
-                // case 'sync_all':
-                //     t.objs.map((item, i) => {
-                //         pro.items.push(i)
-                //     })
-                //     t.sync.await(pro).then(res => {
-                //         console.log(`done with ${JSON.stringify(pro)}: (${res})`.green)
-                //     }, err => {
-                //         console.log(`error ${JSON.stringify(pro)}: (${err})`.red)
-                //     })
-                //     return t.sync.process()
+                    return t.version.process(props)
                 default:
                     throw new Error(`nothing to process`)
             }
         } catch (e) {
             e.message = "queueObj app.js load error: " + e.message
             console.log(e.message.red)
-            throw (e)
-        }
-    }
-
-    await(props) {
-        var t = this, pro
-        try {
-            if (t.sync != null) {
-                pro = { dat_array: props.items }
-                return t.sync.await(props)
-            }
-            if (t.status != null) {
-                pro = { dat_array: props.status }
-                return t.status.await(pro)
-            }
-            if (t.version != null) {
-                pro = { dat_array: props.version }
-                return t.version.await(pro)
-            }
-        } catch (e) {
-            e.message = "queueObj app.js load error: " + e.message
-            console.log(e.message)
             throw (e)
         }
     }
