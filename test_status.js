@@ -73,7 +73,7 @@ let qObj = new queue(), props = { appender: 'status', stats: true }
 
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(new test4())
 
-qObj.process({ property: 'status', items: ['new', 'secondary'] }).then(res => {
+qObj.process({ property: 'status', items: ['init'] }).then(res => {
     console.log(`success with status processing: (${JSON.stringify(res)})`.bold.italic.green)
 }, err => {
     console.log(`errors with status processing: (${JSON.stringify(err)})`.red)
