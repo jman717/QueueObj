@@ -1,22 +1,23 @@
 const assert = require('assert'),
-    jsonHasDifferences = require('compare-json-difference'),
+    jsonHasDifferences = require('diffler'),
     packagejson = require('../package.json')
 
 const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "9.0.4",
+  "version": "9.1.0",
   "bundleDependencies": false,
   "dependencies": {
     "chai": "^4.3.3",
     "colors": "^1.4.0",
-    "compare-json-difference": "^0.1.3",
+    "diffler": "^2.0.4",
     "mocha": "^10.1.0"
   },
   "scripts": {
     "start": "node app.ts",
-    "test": "mocha"
+    "test": "mocha",
+    "ditched": "ditched -a"
   },
   "keywords": [
     "queue",
@@ -44,7 +45,7 @@ const packageMock = {
 
 describe('package.json', function () {
     it('should pass', function () {
-        assert(!jsonHasDifferences(packagejson, packageMock, true))
+        assert(jsonHasDifferences(packagejson, packageMock))
     })
 
     it('should fail', function () {
