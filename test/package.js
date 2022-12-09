@@ -6,7 +6,7 @@ const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "9.1.0",
+  "version": "9.1.1",
   "bundleDependencies": false,
   "dependencies": {
     "chai": "^4.3.3",
@@ -45,11 +45,12 @@ const packageMock = {
 
 describe('package.json', function () {
     it('should pass', function () {
-        assert(jsonHasDifferences(packagejson, packageMock))
+      const difference = jsonHasDifferences(packagejson, packageMock)
+      assert(JSON.stringify(difference) == "{}")
     })
 
     it('should fail', function () {
         packageMock.version = '0'
-        assert(jsonHasDifferences(packagejson, packageMock, true))
+        assert(jsonHasDifferences(packagejson, packageMock))
     })
 })
