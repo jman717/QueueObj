@@ -31,13 +31,7 @@ class test4 {
 let qObj = new queue(), props = { appender: 'all', stats: true }
 
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(new test4()).process({}).then(res => {
-  qObj.logMsg(`success with all processing: (${JSON.stringify(res)})`.bold.italic.green)
+  qObj.logMsg(`success with all processing: (${res})`.bold.italic.green)
 }, err => {
-  // qObj.logMsg(`error with all processing: (${JSON.stringify(err)})`.red)  //show all results
   qObj.logMsg(`error with all processing: (${err})`.red)  //show the execution time
-  err.responses.map((jItem, i) => {
-    if (typeof jItem.error != 'undefined' && typeof jItem.error.msg != 'undefined') {
-      qObj.logMsg(`error: ${jItem.error.msg}`.red)  //show the error
-    }
-  })
 })
