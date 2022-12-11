@@ -35,7 +35,7 @@ class test2 {
     }
 
     ping() {
-        console.log('hello from test2'.rainbow)
+        qObj.logMsg('hello from test2'.rainbow)
     }
 }
 
@@ -85,13 +85,13 @@ let qObj = new queue(), props = { appender: 'version' }
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(new test4()).add(new test5())
 
 qObj.process({ property: 'version', items: ['dev', 'test'] }).then(res => {
-    console.log(`success with status processing: (${JSON.stringify(res)})`.bold.italic.green)
+    qObj.logMsg(`success with status processing: (${JSON.stringify(res)})`.bold.italic.green)
 }, err => {
-    console.log(`errors with status processing: (${JSON.stringify(err)})`.red)
+    qObj.logMsg(`errors with status processing: (${JSON.stringify(err)})`.red)
 })
 
 // qObj.process({ property: 'version', items: ['v1234'] }).then(res => {
-//     console.log(`4) done with version synchronous processing: (${res})`.bold.italic.green)
+//     qObj.logMsg(`4) done with version synchronous processing: (${res})`.bold.italic.green)
 // }, err => {
-//     console.log(`4) errors with version synchronous processing: (${err})`.red)
+//     qObj.logMsg(`4) errors with version synchronous processing: (${err})`.red)
 // })

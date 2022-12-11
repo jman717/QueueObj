@@ -23,7 +23,7 @@ class test3 {
 let qObj = new queue(), props = { appender: 'bottom_one', stats: false}
 
 qObj.load(props).add(new test1()).add(new test2(qObj)).add(new test3()).process({}).then(res => {
-    console.log(`success with all sync processing: (${JSON.stringify(res)})`.bold.italic.green)
+    qObj.logMsg(`success with all sync processing: (${JSON.stringify(res)})`.bold.italic.green)
 }, err => {
-    console.log(`errors with all sync processing: (${JSON.stringify(err)})`.red)
+    qObj.logMsg(`errors with all sync processing: (${JSON.stringify(err)})`.red)
 })

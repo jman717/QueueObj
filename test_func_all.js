@@ -37,8 +37,8 @@ let tst1 = new test1(),
     tst3 = new test3(qObj, tst4)
 
 qObj.load(props).add(tst1.some_function).add(tst2.a_func).add(tst3.cool).process().then(res => {
-    console.log(`success with func_all processing: (${JSON.stringify(res)})`.bold.italic.green)
+    qObj.logMsg(`success with func_all processing: (${JSON.stringify(res)})`.bold.italic.green)
 }, err => {
-    console.log(`errors with func_all processing: (${JSON.stringify(err)})`.red)
+    qObj.logMsg(`errors with func_all processing: (${JSON.stringify(err)})`.red)
 })
 

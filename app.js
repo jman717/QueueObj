@@ -39,6 +39,7 @@ class QueueObj {
             t.getObjectToProcess = t.getObjectToProcess.bind(this)
             t.getObjectById = t.getObjectById.bind(this)
             t.getObjs = t.getObjs.bind(this)
+            t.logMsg = t.logMsg.bind(this)
             return t
         } catch (e) {
             e.message = "queueObj app.js init error: " + e.message
@@ -108,15 +109,16 @@ class QueueObj {
         return this.objs[itm]
     }
 
+    logMsg(msg, props = {}) {
+        console.log(msg)
+    }
+
     load(props) {
         try {
             var t = this
             t.props = props
             t.stats = (typeof props.stats != 'undefined') ? props.stats : false;
             if (typeof props != `undefined`) {
-                if (typeof props.log != `undefined`) {
-                    console.log = props.log
-                }
                 if (typeof props.appender != `undefined` &&
                     typeof props.appender == 'string') {
                     props.getParent = t.getParent
@@ -153,7 +155,7 @@ class QueueObj {
             }
         } catch (e) {
             e.message = "queueObj app.js load error: " + e.message
-            console.log(e.message)
+            t.logMsg(e.message)
             throw (e)
         }
     }
@@ -208,7 +210,7 @@ class QueueObj {
             return t
         } catch (e) {
             e.message = "queueObj app.js add error: " + e.message
-            console.log(e.message.red)
+            t.logMsg(e.message.red)
             throw (e)
         }
     }
@@ -245,7 +247,7 @@ class QueueObj {
             }
         } catch (e) {
             e.message = "queueObj app.js load error: " + e.message
-            console.log(e.message.red)
+            t.logMsg(e.message.red)
             throw (e)
         }
     }

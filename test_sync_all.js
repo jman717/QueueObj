@@ -15,8 +15,8 @@ class test1 {
 
     process(callback) {
         setTimeout(() => {
-            console.log(`processing test1`.cyan)
-            console.log(`some async process`)
+            qObj.logMsg(`processing test1`.cyan)
+            qObj.logMsg(`some async process`)
             callback({success: {msg: `processing all (${this.id})`}})
         }, 3000)
     }
@@ -35,7 +35,7 @@ class test2 {
     }
 
     ping() {
-        console.log('hello from test2'.rainbow)
+        qObj.logMsg('hello from test2'.rainbow)
     }
 }
 
@@ -71,9 +71,9 @@ let qObj = new queue(), props = { appender: 'sync_all' }
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(tst4.custom_function)
 
 qObj.process().then(res => {
-    console.log(`success with all sync processing: (${JSON.stringify(res)})`.bold.italic.green)
+    qObj.logMsg(`success with all sync processing: (${JSON.stringify(res)})`.bold.italic.green)
 }, err => {
-    console.log(`errors with all sync processing: (${JSON.stringify(err)})`.red)
+    qObj.logMsg(`errors with all sync processing: (${JSON.stringify(err)})`.red)
 })
 
 
