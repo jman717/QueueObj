@@ -113,37 +113,41 @@ class QueueObj {
             var t = this
             t.props = props
             t.stats = (typeof props.stats != 'undefined') ? props.stats : false;
-            if (typeof props != `undefined` &&
-                typeof props.appender != `undefined` &&
-                typeof props.appender == 'string') {
-                props.getParent = t.getParent
-                switch (props.appender) {
-                    case 'all':
-                        t.all = new all(props)
-                        break
-                    case 'top_one':
-                        t.top_one = new top_one(props)
-                        break
-                    case 'bottom_one':
-                        t.bottom_one = new bottom_one(props)
-                        break
-                    case 'func_all':
-                        t.func_all = new func_all(props)
-                        break
-                    case 'array':
-                        t.array = new array(props)
-                        break
-                    case 'status':
-                        t.status = new status(props)
-                        break
-                    case 'version':
-                        t.version = new version(props)
-                        break
-                    case 'sync_all':
-                        t.sync_all = new sync_all(props)
-                        break
-                    default:
-                        throw new Error(`appender(${props.appender}) not found`)
+            if (typeof props != `undefined`) {
+                if (typeof props.log != `undefined`) {
+                    console.log = props.log
+                }
+                if (typeof props.appender != `undefined` &&
+                    typeof props.appender == 'string') {
+                    props.getParent = t.getParent
+                    switch (props.appender) {
+                        case 'all':
+                            t.all = new all(props)
+                            break
+                        case 'top_one':
+                            t.top_one = new top_one(props)
+                            break
+                        case 'bottom_one':
+                            t.bottom_one = new bottom_one(props)
+                            break
+                        case 'func_all':
+                            t.func_all = new func_all(props)
+                            break
+                        case 'array':
+                            t.array = new array(props)
+                            break
+                        case 'status':
+                            t.status = new status(props)
+                            break
+                        case 'version':
+                            t.version = new version(props)
+                            break
+                        case 'sync_all':
+                            t.sync_all = new sync_all(props)
+                            break
+                        default:
+                            throw new Error(`appender(${props.appender}) not found`)
+                    }
                 }
                 return t
             }
