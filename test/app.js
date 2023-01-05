@@ -1,87 +1,73 @@
 var assert = require('assert');
 
 describe('app', function () {
+    let app, application
 
-    describe('require', function () {
-        it('colors app', function () {
-            try {
-                colors = require('colors')
-                if (typeof colors == 'undefined') {
-                    throw new Error('no colors')
-                }
-            } catch (e) {
-                assert(false)
-            }
-        })
-        it('all appender', function () {
-            try {
-                all = require('../lib/appenders/all')
-                if (typeof all == 'undefined') {
-                    throw new Error('no all appender')
-                }
-            } catch (e) {
-                assert(false)
-            }
-        })
-        it('func_all appender', function () {
-            try {
-                func_all = require('../lib/appenders/func_all')
-                if (typeof func_all == 'undefined') {
-                    throw new Error('no func_all')
-                }
-            } catch (e) {
-                assert(false)
-            }
-        })
-        it('top_one appender', function () {
-            try {
-                top_one = require('../lib/appenders/top_one')
-                if (typeof top_one == 'undefined') {
-                    throw new Error('no top_one')
-                }
-            } catch (e) {
-                assert(false)
-            }
-        })
-        it('bottom_one appender', function () {
-            try {
-                bottom_one = require('../lib/appenders/bottom_one')
-                if (typeof bottom_one == 'undefined') {
-                    throw new Error('no bottom_one')
-                }
-            } catch (e) {
-                assert(false)
-            }
-        })
-        it('sync_all appender', function () {
-            try {
-                sync_all = require('../lib/appenders/sync_all')
-                if (typeof sync_all == 'undefined') {
-                    throw new Error('no sync_all')
-                }
-            } catch (e) {
-                assert(false)
-            }
-        })
-        it('status appender', function () {
-            try {
-                statuss = require('../lib/appenders/status')
-                if (typeof statuss == 'undefined') {
-                    throw new Error('no status')
-                }
-            } catch (e) {
-                assert(false)
-            }
-        })
-        it('version appender', function () {
-            try {
-                version = require('../lib/appenders/version')
-                if (typeof version == 'undefined') {
-                    throw new Error('no version')
-                }
-            } catch (e) {
-                assert(false)
-            }
-        })
+    it('app.constructor should pass', function () {
+        application = require('../app.js')
+        assert(app = new application())
+    })
+
+    it('app.process is a function', function () {
+        assert(typeof app.process == 'function')
+    })
+    
+    it('app.getParent is a function', function () {
+        assert(typeof app.getParent == 'function')
+    })
+    
+    it('app.getObjectToProcess is a function', function () {
+        assert(typeof app.getObjectToProcess == 'function')
+    })
+        
+    it('app.getObjectById is a function', function () {
+        assert(typeof app.getObjectById == 'function')
+    })
+            
+    it('app.getObjs is a function', function () {
+        assert(typeof app.getObjs == 'function')
+    })
+                
+    it('app.logMsg is a function', function () {
+        assert(typeof app.logMsg == 'function')
+    })
+})
+
+describe('require', function () {
+    
+    it('base', function () {
+        assert(require('../lib/appenders/base'))
+    })
+
+    it('colors app', function () {
+        assert(require('colors'))
+    })
+
+    it('all appender', function () {
+        assert(require('../lib/appenders/all'))
+    })
+
+    it('func_all appender', function () {
+        assert(require('../lib/appenders/func_all'))
+    })
+
+    it('top_one appender', function () {
+        assert(require('../lib/appenders/top_one'))
+    })
+
+    it('bottom_one appender', function () {
+        assert(require('../lib/appenders/bottom_one'))
+    })
+
+    it('sync_all appender', function () {
+        assert(require('../lib/appenders/sync_all'))
+    })
+
+    it('status appender', function () {
+        assert(require('../lib/appenders/status'))
+    })
+
+    it('version appender', function () {
+        assert(require('../lib/appenders/version'))
     })
 })

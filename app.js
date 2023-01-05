@@ -42,7 +42,7 @@ class QueueObj {
             t.logMsg = t.logMsg.bind(this)
             return t
         } catch (e) {
-            e.message = "queueObj app.js init error: " + e.message
+            e.message = "queueObj app.js constructor error: " + e.message
             throw (e)
         }
     }
