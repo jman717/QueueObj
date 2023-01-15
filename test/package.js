@@ -6,11 +6,11 @@ const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "10.3.0",
+  "version": "10.4.0",
   "bundleDependencies": false,
   "dependencies": {
     "chai": "^4.3.7",
-    "colors": "^1.4.0",
+    "node-console-colors": "^1.1.4",
     "diffler": "^2.0.4",
     "mocha": "^10.2.0"
   },
