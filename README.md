@@ -1,7 +1,6 @@
+# QueueObj [![CodeQL](https://github.com/QueueObj/QueueObj/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/QueueObj/QueueObj/actions/workflows/codeql-analysis.yml) [![Node.js CI](https://github.com/QueueObj/QueueObj/actions/workflows/node.js.yml/badge.svg)](https://github.com/QueueObj/QueueObj/actions/workflows/node.js.yml)
 
-# QueueObj
-
-[![NPM](https://nodei.co/npm/log4js-tagline.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/log4js-tagline/)
+[![NPM](https://nodei.co/npm/QueueObj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/QueueObj/)
 
 Queue javascript objects dynamically then process the queue according to the appender.
 
