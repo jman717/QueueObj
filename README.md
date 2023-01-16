@@ -1,6 +1,6 @@
-# QueueObj [![CodeQL](https://github.com/QueueObj/QueueObj/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/QueueObj/QueueObj/actions/workflows/codeql-analysis.yml) [![Node.js CI](https://github.com/QueueObj/QueueObj/actions/workflows/node.js.yml/badge.svg)](https://github.com/QueueObj/QueueObj/actions/workflows/node.js.yml)
+# QueueObj [![CodeQL](https://github.com/queueobj/queueobj/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/queueobj/queueobj/actions/workflows/codeql-analysis.yml) [![Node.js CI](https://github.com/queueobj/queueobj/actions/workflows/node.js.yml/badge.svg)](https://github.com/queueobj/queueobj/actions/workflows/node.js.yml)
 
-[![NPM](https://nodei.co/npm/QueueObj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/QueueObj/)
+[![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
 
 Queue javascript objects dynamically then process the queue according to the appender.
 
@@ -17,7 +17,7 @@ Included tag appenders:
 Installation
 ---------
 ```
-npm install QueueObj
+npm install queueobj
 ```
 
 Mocha Test
