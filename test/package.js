@@ -6,7 +6,7 @@ const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "10.4.0",
+  "version": "10.5.0",
   "bundleDependencies": false,
   "dependencies": {
     "chai": "^4.3.7",
@@ -17,7 +17,13 @@ const packageMock = {
   "scripts": {
     "start": "node app.ts",
     "test": "mocha",
-    "ditched": "ditched -a"
+    "ditched": "ditched -a",
+    "test_all": "node ./tests/test_all",
+    "test_bottom_one": "node ./tests/test_bottom_one",
+    "test_func_all": "node ./tests/test_func_all",
+    "test_status": "node ./tests/test_status",
+    "test_top_one": "node ./tests/test_top_one",
+    "test_version": "node ./tests/test_version"
   },
   "keywords": [
     "queue",

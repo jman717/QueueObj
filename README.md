@@ -1,4 +1,8 @@
+
 # QueueObj
+
+[![NPM](https://nodei.co/npm/log4js-tagline.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/log4js-tagline/)
+
 Queue javascript objects dynamically then process the queue according to the appender.
 
 Included tag appenders:
@@ -26,13 +30,13 @@ npm test
 General Setup Test
 ---------
 ```
-node test_all
-node test_top_one
-node test_bottom_one
-node test_func_all
-node test_sync_all
-node test_status
-node test_version
+npm run test_all
+npm run test_top_one
+npm run test_bottom_one
+npm run test_func_all
+npm run test_sync_all
+npm run test_status
+npm run test_version
 
 ```
 

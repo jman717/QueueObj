@@ -1,6 +1,6 @@
 var colors = require('colors')
 
-var queue = require("./app.js");
+var queue = require("../app.js");
 
 class test1 {
   process(callback) {
@@ -17,8 +17,8 @@ class test2 {
 
 class test3 {
   process(callback) {
-    callback({success: { msg: `processing all test3` }})
-    // callback({ error: { msg: `there is some problem thrown here on test3` } })
+    // callback({success: { msg: `processing all test3` }})
+    callback({ error: { msg: `there is some problem thrown here on test3` } })
   }
 }
 
