@@ -12,10 +12,8 @@ Included tag appenders:
 
 Installation
 ---------
-```
-[![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
 
-```
+[![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
 
 Mocha Test
 ---------
