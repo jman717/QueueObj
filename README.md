@@ -1,7 +1,3 @@
-# QueueObj 
-
-[![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
-
 Queue javascript objects dynamically then process the queue according to the appender.
 
 Included tag appenders:
@@ -17,7 +13,8 @@ Included tag appenders:
 Installation
 ---------
 ```
-npm install queueobj
+[![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
+
 ```
 
 Mocha Test
