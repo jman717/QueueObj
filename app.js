@@ -10,6 +10,7 @@ var colors = require('colors'),
     bottom_one = require('./lib/appenders/bottom_one'),
     sync_all = require('./lib/appenders/sync_all'),
     status = require('./lib/appenders/status'),
+    jrmdig = require('./lib/appenders/name'),
     version = require('./lib/appenders/version')
 
 class QueueObj {
@@ -28,6 +29,7 @@ class QueueObj {
             t.version = null
             t.stats = false
             t.sync_all = null
+            t.name = null
             t.func_all = null
             t.objs = []
             t.resolve = null
@@ -147,6 +149,9 @@ class QueueObj {
                         case 'sync_all':
                             t.sync_all = new sync_all(props)
                             break
+                        case 'name':
+                            t.name = new jrmdig(props)
+                            break
                         default:
                             throw new Error(`appender(${props.appender}) not found`)
                     }
@@ -189,9 +194,20 @@ class QueueObj {
                     return 'sync_all'
                 }
             }
+            if (t.name != null) {
+                obj._getProperty = (o) => {
+                    return 'name'
+                }
+            }
             if (typeof obj.status != 'undefined') {
                 obj._getProperty = (o) => {
                     return o.status
+                }
+
+            }
+            if (typeof obj.name != 'undefined') {
+                obj._getProperty = (o) => {
+                    return o.name
                 }
 
             }
@@ -238,6 +254,8 @@ class QueueObj {
                 case 'sync':
                 case 'sync_all':
                     return t.sync_all.process(props)
+                case 'name':
+                    return t.name.process(props)
                 case 'status':
                     return t.status.process(props)
                 case 'version':

@@ -6,7 +6,7 @@ const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "10.5.5",
+  "version": "11.0.0",
   "bundleDependencies": false,
   "dependencies": {
     "chai": "^4.3.7",
@@ -21,7 +21,9 @@ const packageMock = {
     "test_all": "node ./tests/test_all",
     "test_bottom_one": "node ./tests/test_bottom_one",
     "test_func_all": "node ./tests/test_func_all",
+    "test_sync_all": "node ./tests/test_sync_all",
     "test_status": "node ./tests/test_status",
+    "test_name": "node ./tests/test_name",
     "test_top_one": "node ./tests/test_top_one",
     "test_version": "node ./tests/test_version"
   },

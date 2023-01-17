@@ -63,6 +63,10 @@ describe('require', function () {
         assert(require('../lib/appenders/sync_all'))
     })
 
+    it('name appender', function () {
+        assert(require('../lib/appenders/name'))
+    })
+
     it('status appender', function () {
         assert(require('../lib/appenders/status'))
     })

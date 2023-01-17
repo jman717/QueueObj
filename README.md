@@ -6,8 +6,9 @@ Included tag appenders:
 * func_all - synchronous - process custom functions to added objects.
 * top_one - synchronous - process only the object in the 0(zero) position of the process array.
 * bottom_one - synchronous - process only the object in the last position of the process array.
-* sync_all - synchronous - All appenders are synchronous now. Sync_all is no different than all .
+* sync_all - synchronous - All appenders are synchronous now. Sync_all is no different than all.
 * status - synchronous - queue and process all objects by status.
+* name - synchronous - queue and process all objects by name.
 * version - synchronous - queue and process all objects by version.
 
 Installation
@@ -31,6 +32,7 @@ npm run test_func_all
 npm run test_sync_all
 npm run test_status
 npm run test_version
+npm run test_name
 
 ```
 
@@ -100,7 +102,7 @@ class test4 {
     }
 }
 let tst4 = new test4()
-let qObj = new queue(), props = { appender: 'sync_all' }
+let qObj = new queue(), props = { appender: 'name' }
 
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(tst4.custom_function)
 

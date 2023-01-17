@@ -4,8 +4,8 @@
 * test_status.js
 */
 
-var colors = require('colors')
-var queue = require("./app.js");
+var colors = require('colors'),
+    queue = require("../app.js")
 
 class test1 {
     constructor() {
