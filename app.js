@@ -10,7 +10,7 @@ var colors = require('colors'),
     bottom_one = require('./lib/appenders/bottom_one'),
     sync_all = require('./lib/appenders/sync_all'),
     status = require('./lib/appenders/status'),
-    jrmdig = require('./lib/appenders/name'),
+    name = require('./lib/appenders/name'),
     version = require('./lib/appenders/version')
 
 class QueueObj {
@@ -150,7 +150,7 @@ class QueueObj {
                             t.sync_all = new sync_all(props)
                             break
                         case 'name':
-                            t.name = new jrmdig(props)
+                            t.name = new name(props)
                             break
                         default:
                             throw new Error(`appender(${props.appender}) not found`)
