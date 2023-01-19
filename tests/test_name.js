@@ -69,7 +69,7 @@ class test4 {
     }
 }
 
-let qObj = new queue(), props = { appender: 'status', stats: true }
+let qObj = new queue(), props = { appender: 'name', stats: true }
 
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(new test4())
 

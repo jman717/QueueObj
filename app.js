@@ -4,17 +4,19 @@
 */
 
 var colors = require('colors'),
-    all = require('./lib/appenders/all'),
-    func_all = require('./lib/appenders/func_all'),
-    top_one = require('./lib/appenders/top_one'),
-    bottom_one = require('./lib/appenders/bottom_one'),
-    sync_all = require('./lib/appenders/sync_all'),
-    status = require('./lib/appenders/status'),
-    name = require('./lib/appenders/name'),
-    version = require('./lib/appenders/version')
+    file_queue = new require('file-obj-queue'),             //('./file-queue'),
+    file_requre_data = [
+        { props: { id: 100, name: "all", path: "./lib/appenders/all.js", absolute_path: __filename, check: true } },
+        { props: { id: 101, name: "func_all", path: "./lib/appenders/func_all.js", absolute_path: __filename, check: true } },
+        { props: { id: 102, name: "top_one", path: "./lib/appenders/top_one.js", absolute_path: __filename, check: true } },
+        { props: { id: 103, name: "bottom_one", path: "./lib/appenders/bottom_one.js", absolute_path: __filename, check: true } },
+        { props: { id: 104, name: "sync_all", path: "./lib/appenders/sync_all.js", absolute_path: __filename, check: true } },
+        { props: { id: 105, name: "status", path: "./lib/appenders/status.js", absolute_path: __filename, check: true } },
+        { props: { id: 106, name: "name", path: "./lib/appenders/name.js", absolute_path: __filename, check: true } },
+        { props: { id: 107, name: "version", path: "./lib/appenders/version.js", absolute_path: __filename, check: true } }
+    ]
 
 class QueueObj {
-
     constructor() {
         try {
             var t = this
@@ -26,6 +28,7 @@ class QueueObj {
             t.bottom_one = null
             t.array = null
             t.status = null
+            t.name = null
             t.version = null
             t.stats = false
             t.sync_all = null
@@ -34,14 +37,15 @@ class QueueObj {
             t.objs = []
             t.resolve = null
             t.reject = null
+            t.qRequire = new file_queue().init({ input_data: file_requre_data })  
 
-            t.load = t.load.bind(this)
-            t.process = t.process.bind(this)
-            t.getParent = t.getParent.bind(this)
-            t.getObjectToProcess = t.getObjectToProcess.bind(this)
-            t.getObjectById = t.getObjectById.bind(this)
-            t.getObjs = t.getObjs.bind(this)
-            t.logMsg = t.logMsg.bind(this)
+            t.load = t.load.bind(t)
+            t.process = t.process.bind(t)
+            t.getParent = t.getParent.bind(t)
+            t.getObjectToProcess = t.getObjectToProcess.bind(t)
+            t.getObjectById = t.getObjectById.bind(t)
+            t.getObjs = t.getObjs.bind(t)
+            t.logMsg = t.logMsg.bind(t)
             return t
         } catch (e) {
             e.message = "queueObj app.js constructor error: " + e.message
@@ -117,44 +121,21 @@ class QueueObj {
 
     load(props) {
         try {
-            var t = this
+            var t = this, file_obj, obj
             t.props = props
+            file_obj = t.qRequire.getFileObject()
+
             t.stats = (typeof props.stats != 'undefined') ? props.stats : false;
             if (typeof props != `undefined`) {
                 if (typeof props.appender != `undefined` &&
                     typeof props.appender == 'string') {
                     props.getParent = t.getParent
-                    switch (props.appender) {
-                        case 'all':
-                            t.all = new all(props)
-                            break
-                        case 'top_one':
-                            t.top_one = new top_one(props)
-                            break
-                        case 'bottom_one':
-                            t.bottom_one = new bottom_one(props)
-                            break
-                        case 'func_all':
-                            t.func_all = new func_all(props)
-                            break
-                        case 'array':
-                            t.array = new array(props)
-                            break
-                        case 'status':
-                            t.status = new status(props)
-                            break
-                        case 'version':
-                            t.version = new version(props)
-                            break
-                        case 'sync_all':
-                            t.sync_all = new sync_all(props)
-                            break
-                        case 'name':
-                            t.name = new name(props)
-                            break
-                        default:
-                            throw new Error(`appender(${props.appender}) not found`)
-                    }
+                    file_obj.map((jsObj, i) => {
+                        if (jsObj.name == props.appender) {
+                            obj = require(jsObj.path)                            
+                            eval(`t.${jsObj.name} = new obj(props)`) 
+                        }
+                    })
                 }
                 return t
             }
