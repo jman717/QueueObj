@@ -4,7 +4,7 @@
 */
 
 var colors = require('colors'),
-    file_queue = new require('file-obj-queue'),             //('./file-queue'),
+    file_queue = new require('file-obj-queue'),             
     file_requre_data = [
         { props: { id: 100, name: "all", path: "./lib/appenders/all.js", absolute_path: __filename, check: true } },
         { props: { id: 101, name: "func_all", path: "./lib/appenders/func_all.js", absolute_path: __filename, check: true } },

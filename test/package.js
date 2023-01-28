@@ -6,12 +6,12 @@ const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "12.0.0",
+  "version": "12.0.2",
   "bundleDependencies": [],
   "dependencies": {
     "chai": "^4.3.7",
     "diffler": "^2.0.4",
-    "file-obj-queue": "^0.0.3",
+    "file-obj-queue": "^1.0.1",
     "mocha": "^10.2.0",
     "node-console-colors": "^1.1.4",
     "queuejson": "^8.4.0"

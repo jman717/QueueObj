@@ -32,8 +32,8 @@ class test2 {
 
     process(callback) {
         let t = this, msg = `some kinda problem here test2 id(${this.id}) name(${this.name})`
-        callback({error: {msg: msg}})  //this will show errors
-        // callback({success: {msg: `processing test2 id(${this.id}) name(${this.name})`}})  //this will show no errors
+        // callback({error: {msg: msg}})  //this will show errors
+        callback({success: {msg: `processing test2 id(${this.id}) name(${this.name})`}})  //this will show no errors
     }
 
     ping() {
