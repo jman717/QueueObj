@@ -3,7 +3,7 @@
 * Main processing app
 */
 
-var colors = require('colors'),
+var colors = require('node-console-colors'),
     file_queue = new require('file-obj-queue'),             
     file_requre_data = [
         { props: { id: 100, name: "all", path: "./lib/appenders/all.js", absolute_path: __filename, check: true } },

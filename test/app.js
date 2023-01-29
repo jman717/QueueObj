@@ -39,8 +39,8 @@ describe('require', function () {
         assert(require('../lib/appenders/base'))
     })
 
-    it('colors app', function () {
-        assert(require('colors'))
+    it('node-console-colors', function () {
+        assert(require('node-console-colors'))
     })
 
     it('all appender', function () {

@@ -42,7 +42,7 @@ Usage
 ---------
 ```js
 
-var colors = require('colors')
+var colors = require('node-console-colors')
 var queue = require("queueobj");
 
 class test1 {
