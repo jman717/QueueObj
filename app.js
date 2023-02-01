@@ -1,4 +1,4 @@
-/* @author Jim Manton: jrman@risebroadband.net
+/* @author Jim Manton: jrman@risebroadband.netfile_queue
 * @since 2021-03-19
 * Main processing app
 */
@@ -37,7 +37,8 @@ class QueueObj {
             t.objs = []
             t.resolve = null
             t.reject = null
-            t.qRequire = new file_queue().init({ input_data: file_requre_data })  
+            t.qRequire = new file_queue().init({ input_data: file_requre_data })  //jrm debug 1/29
+            console.log(`jrm debug 1/29 obj(${typeof t.qRequire})`)
 
             t.load = t.load.bind(t)
             t.process = t.process.bind(t)
@@ -220,38 +221,59 @@ class QueueObj {
         return this.objs
     }
 
-    process(props = {}) {
+    process(props = {}) {  //jrm debug 1/29
+        let t = this, fname = `app process`, file_obj, jsObj, i
+        let pro = { 'dat_array': [''] }
         try {
-            var t = this
-            switch (t.props.appender) {
-                case 'all':
-                    return t.all.process(props)
-                case 'top_one':
-                    return t.top_one.process(props)
-                case 'bottom_one':
-                    return t.bottom_one.process(props)
-                case 'func_all':
-                    return t.func_all.process(props)
-                case 'sync':
-                case 'sync_all':
-                    return t.sync_all.process(props)
-                case 'name':
-                    return t.name.process(props)
-                case 'status':
-                    return t.status.process(props)
-                case 'version':
-                    return t.version.process(props)
-                default:
-                    throw new Error(`nothing to process`)
+            file_obj = t.qRequire.getFileObject()  
+            for (i = 0; i < file_obj.length; i++) {
+                jsObj = file_obj[i]
+                if (jsObj.name == t.props.appender) {
+                    pro.dat_array.push(`${jsObj.name}`)
+                    return eval(`t.${jsObj.name}.process(props)`)  
+                }
             }
+            throw new Error('no appender found to process')
         } catch (e) {
-            e.message = "queueObj app.js load error: " + e.message
-            t.logMsg(e.message.red)
+            t.logMsg(`${fname}: ${e.message}`, { "type": "error" })
+            // e.message = "queueObj app.js load error: " + e.message
+            // t.logMsg(e.message.red)
             throw (e)
-        }
+    }
+
+
+
+        // try {
+        //     var t = this
+        //     switch (t.props.appender) {
+        //         case 'all':
+        //             return t.all.process(props)
+        //         case 'top_one':
+        //             return t.top_one.process(props)
+        //         case 'bottom_one':
+        //             return t.bottom_one.process(props)
+        //         case 'func_all':
+        //             return t.func_all.process(props)
+        //         case 'sync':
+        //         case 'sync_all':
+        //             return t.sync_all.process(props)
+        //         case 'name':
+        //             return t.name.process(props)
+        //         case 'status':
+        //             return t.status.process(props)
+        //         case 'version':
+        //             return t.version.process(props)
+        //         default:
+        //             throw new Error(`nothing to process`)
+        //     }
+        // } catch (e) {
+        //     e.message = "queueObj app.js load error: " + e.message
+        //     t.logMsg(e.message.red)
+        //     throw (e)
+        // }
     }
 }
 
-exports = module.exports = function (props) {
-    return new QueueObj(props)
+exports = module.exports = function () {
+    return new QueueObj()
 }
