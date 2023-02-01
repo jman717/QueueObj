@@ -4,7 +4,7 @@
 * test_name.js
 */
 
-var colors = require('node-console-colors'),
+var colors = require('colors'),
     queue = require("../app.js")
 
 class test1 {
@@ -32,8 +32,8 @@ class test2 {
 
     process(callback) {
         let t = this, msg = `some kinda problem here test2 id(${this.id}) name(${this.name})`
-        // callback({error: {msg: msg}})  //this will show errors
-        callback({success: {msg: `processing test2 id(${this.id}) name(${this.name})`}})  //this will show no errors
+        callback({error: {msg: msg}})  //this will show errors
+        // callback({success: {msg: `processing test2 id(${this.id}) name(${this.name})`}})  //this will show no errors
     }
 
     ping() {
@@ -69,7 +69,7 @@ class test4 {
     }
 }
 
-let qObj = new queue(), props = { appender: 'name', stats: true }
+let qObj = new queue(), props = { appender: 'status', stats: true }
 
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(new test4())
 

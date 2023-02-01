@@ -1,11 +1,4 @@
-[![npm Package](https://img.shields.io/npm/v/queueobj.svg)](https://www.npmjs.org/package/queueobj)
-[![License](https://img.shields.io/npm/l/queueobj.svg)](https://github.com/jman717/queueobj/blob/master/LICENSE)
-
-[![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
-
 Queue javascript objects dynamically then process the queue according to the appender.
-
----------
 
 Included tag appenders:
 
@@ -17,6 +10,11 @@ Included tag appenders:
 * status - synchronous - queue and process all objects by status.
 * name - synchronous - queue and process all objects by name.
 * version - synchronous - queue and process all objects by version.
+
+Installation
+---------
+
+[![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
 
 Mocha Test
 ---------
@@ -42,7 +40,7 @@ Usage
 ---------
 ```js
 
-var colors = require('node-console-colors')
+var colors = require('colors')
 var queue = require("queueobj");
 
 class test1 {

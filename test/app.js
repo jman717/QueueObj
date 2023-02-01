@@ -1,47 +1,46 @@
-var assert = require('assert')
+var assert = require('assert');
 
 describe('app', function () {
-    let app, application, file_queue
+    let app, application
 
     it('app.constructor should pass', function () {
-        application = require('../app.js'),
-            file_queue = new require('file-obj-queue')
+        application = require('../app.js')
         assert(app = new application())
     })
 
     it('app.process is a function', function () {
         assert(typeof app.process == 'function')
     })
-
+    
     it('app.getParent is a function', function () {
         assert(typeof app.getParent == 'function')
     })
-
+    
     it('app.getObjectToProcess is a function', function () {
         assert(typeof app.getObjectToProcess == 'function')
     })
-
+        
     it('app.getObjectById is a function', function () {
         assert(typeof app.getObjectById == 'function')
     })
-
+            
     it('app.getObjs is a function', function () {
         assert(typeof app.getObjs == 'function')
     })
-
+                
     it('app.logMsg is a function', function () {
         assert(typeof app.logMsg == 'function')
     })
 })
 
 describe('require', function () {
-
+    
     it('base', function () {
         assert(require('../lib/appenders/base'))
     })
 
-    it('node-console-colors', function () {
-        assert(require('node-console-colors'))
+    it('colors app', function () {
+        assert(require('colors'))
     })
 
     it('all appender', function () {
