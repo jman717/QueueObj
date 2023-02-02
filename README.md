@@ -1,7 +1,7 @@
 [![npm Package](https://img.shields.io/npm/v/queueobj.svg)](https://www.npmjs.org/package/queueobj)
 [![License](https://img.shields.io/npm/l/queueobj.svg)](https://github.com/jman717/queueobj/blob/master/LICENSE)
-[![CodeQL](https://github.com/jman717/queueobj/actions/workflows/github-actions-demo.yml/badge.svg)](https://github.com/jman717/queueobj/actions/workflows/github-actions-demo.yml)
-[![Node.js CI](https://github.com/jman717/queueobj/actions/workflows/node.js.yml/badge.svg)](https://github.com/jman717/queueobj/actions/workflows/node.js.yml)
+[![CodeQL](https://github.com/jman717/QueueObj/blob/main/.github/workflows/badge.svg)](https://github.com/jman717/QueueObj/blob/main/.github/workflows/github-actions.yml)
+[![Node.js CI](https://github.com/jman717/QueueObj/blob/main/.github/workflows/node.js.yml/badge.svg)](https://github.com/jman717/QueueObj/blob/main/.github/workflows/node.js.yml)
 
 [![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
 
