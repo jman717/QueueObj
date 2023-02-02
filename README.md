@@ -1,3 +1,10 @@
+[![npm Package](https://img.shields.io/npm/v/queueobj.svg)](https://www.npmjs.org/package/queueobj)
+[![License](https://img.shields.io/npm/l/queueobj.svg)](https://github.com/jman717/queueobj/blob/master/LICENSE)
+[![CodeQL](https://github.com/jman717/queueobj/actions/workflows/github-actions-demo.yml/badge.svg)](https://github.com/jman717/queueobj/actions/workflows/github-actions-demo.yml)
+[![Node.js CI](https://github.com/jman717/queueobj/actions/workflows/node.js.yml/badge.svg)](https://github.com/jman717/queueobj/actions/workflows/node.js.yml)
+
+[![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
+
 Queue javascript objects dynamically then process the queue according to the appender.
 
 Included tag appenders:
@@ -10,11 +17,6 @@ Included tag appenders:
 * status - synchronous - queue and process all objects by status.
 * name - synchronous - queue and process all objects by name.
 * version - synchronous - queue and process all objects by version.
-
-Installation
----------
-
-[![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
 
 Mocha Test
 ---------
