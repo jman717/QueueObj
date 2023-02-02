@@ -4,7 +4,7 @@
 * test_status.js
 */
 
-var colors = require('colors'),
+var colors = require('node-console-colors'),
     queue = require("../app.js")
 
 class test1 {

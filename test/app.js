@@ -40,7 +40,7 @@ describe('require', function () {
     })
 
     it('colors app', function () {
-        assert(require('colors'))
+        assert(require('node-console-colors'))
     })
 
     it('all appender', function () {
