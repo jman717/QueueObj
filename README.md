@@ -42,7 +42,7 @@ Usage
 ---------
 ```js
 
-var colors = require('node-console-colors')
+var colors = require('colors')
 var queue = require("queueobj");
 
 class test1 {
@@ -109,7 +109,7 @@ let qObj = new queue(), props = { appender: 'name' }
 qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(tst4.custom_function)
 
 qObj.process().then(res => {
-    console.log(`success with all sync processing: (${JSON.stringify(res)})`.bold.italic.green)
+    console.log(`success with all sync processing: (${JSON.stringify(res)})`.green)
 }, err => {
     console.log(`errors with all sync processing: (${JSON.stringify(err)})`.red)
 })

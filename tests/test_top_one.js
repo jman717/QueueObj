@@ -1,4 +1,4 @@
-var colors = require('node-console-colors'),
+var colors = require('colors'),
   queue = require("../app.js");
 
 class test1 {

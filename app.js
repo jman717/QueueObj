@@ -3,7 +3,7 @@
 * Main processing app
 */
 
-var colors = require('node-console-colors'),
+var colors = require('colors'),
     all = require('./lib/appenders/all'),
     func_all = require('./lib/appenders/func_all'),
     top_one = require('./lib/appenders/top_one'),
