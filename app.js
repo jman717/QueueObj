@@ -1,276 +1,187 @@
 /* @author Jim Manton: jrman@risebroadband.net
-* @since 2021-03-19
+* @since 2023-01-15
 * Main processing app
 */
 
-var colors = require('colors'),
-    all = require('./lib/appenders/all'),
-    func_all = require('./lib/appenders/func_all'),
-    top_one = require('./lib/appenders/top_one'),
-    bottom_one = require('./lib/appenders/bottom_one'),
-    sync_all = require('./lib/appenders/sync_all'),
-    status = require('./lib/appenders/status'),
-    name = require('./lib/appenders/name'),
-    version = require('./lib/appenders/version')
+let base_queue = require("./base_queue/app"),
+    log_queue = require("./log-queue/app"),
+    fs = require('fs'),
+    validPath = require('valid-path')
 
-class QueueObj {
+const { memoryUsage } = require('process')
 
-    constructor() {
+var log_data = [
+    { props: { id: 100, name: "console_basic", absolute_path: __filename, check: true } }
+]
+
+
+var log_object = class log_obj {
+    constructor(props) {
+        let t = this
+        t.id = props.id
+        t.log = props.log
+        t.name = props.name
+        t.path = props.relative_path
+        t.absolute_path = props.absolute_path
+        t.status = 'init'
+        t.errors = false
+        t.error_msg = 'none'
+
+        t.process = t.process.bind(t)
+        t.do_checks = t.do_checks.bind(t)
+
+        if (props.check) {
+            t.do_checks()
+        }
+
+        return t
+    }
+
+    do_checks() {
+        let t = this, path_to_check,
+            last_item = t.absolute_path.split("\\").pop(),
+            check_file = t.absolute_path.split(last_item)[0], check_path = t.path.split('../')
+
+        check_file = check_file.replace(/\\/g, "/");
+        path_to_check = validPath(t.path);
+
+        if (!path_to_check.valid) {
+            t.errors = true
+            t.error_msg = `id = ${t.id} name(${t.name}) Error in ${path_to_check.data.input}: ${path_to_check.error})`
+        }
+
+        // check_path.map((dat, i) => {
+        //     if (/^[a-zA-Z._]+$/.test(dat)) {
+        //         if (dat != '.' || dat != '..')
+        //             check_file += dat + '/'
+        //     }
+        // })
+        // check_file = check_file.slice(0, -1)
+        check_file += check_path[1]
+        check_file += `${t.name}.js`
         try {
-            var t = this
-            t.id = 0
-            t.appenders_dir = './lib/appenders/'
-            t.props = {}
-            t.all = null
-            t.top_one = null
-            t.bottom_one = null
-            t.array = null
-            t.status = null
-            t.version = null
-            t.stats = false
-            t.sync_all = null
-            t.name = null
-            t.func_all = null
-            t.objs = []
-            t.resolve = null
-            t.reject = null
-
-            t.load = t.load.bind(this)
-            t.process = t.process.bind(this)
-            t.getParent = t.getParent.bind(this)
-            t.getObjectToProcess = t.getObjectToProcess.bind(this)
-            t.getObjectById = t.getObjectById.bind(this)
-            t.getObjs = t.getObjs.bind(this)
-            t.logMsg = t.logMsg.bind(this)
-            return t
+            if (!fs.existsSync(check_file)) {
+                t.errors = true
+                t.error_msg = `id = ${t.id} name(${t.name}) file (${check_file} does not exist)`
+            }
         } catch (e) {
-            e.message = "queueObj app.js constructor error: " + e.message
+            e.message = "file_obj do_checks error: " + e.message
             throw (e)
         }
     }
 
-    getStats() {
-        return this.stats
-    }
-
-    getObjectById(id) {
-        let t = this, i
-        for (i = 0; i < t.objs.length; i++) {
-            if (typeof t.objs[i] != 'undefined' &&
-                typeof t.objs[i].id != 'undefined' &&
-                t.objs[i].id == id) {
-                return t.objs[i]
-            }
-        }
-        return null
-    }
-
-    getObjectByStatus(status) {
-        let t = this, i
-        for (i = 0; i < t.objs.length; i++) {
-            if (typeof t.objs[i] != 'undefined' &&
-                typeof t.objs[i].status != 'undefined' &&
-                t.objs[i].status == status) {
-                return t.objs[i]
-            }
-        }
-        return null
-    }
-
-    getObjectByVersion(version) {
-        let t = this, i
-        for (i = 0; i < t.objs.length; i++) {
-            if (typeof t.objs[i] != 'undefined' &&
-                typeof t.objs[i].version != 'undefined' &&
-                t.objs[i].version == version) {
-                return t.objs[i]
-            }
-        }
-        return null
-    }
-
-    count() {
-        return this.objs.length
-    }
-
-    get(num) {
-        if (num < this.objs.length)
-            return this.objs[num]
-        return false
-    }
-
-    getObjectToProcess() {
-        return this.objs.shift()
-    }
-
-    getBottomObjectToProcess() {
-        return this.objs.pop()
-    }
-
-    getItemToProcess(itm) {
-        return this.objs[itm]
-    }
-
-    logMsg(msg, props = {}) {
-        console.log(msg)
-    }
-
-    load(props) {
-        try {
-            var t = this
-            t.props = props
-            t.stats = (typeof props.stats != 'undefined') ? props.stats : false;
-            if (typeof props != `undefined`) {
-                if (typeof props.appender != `undefined` &&
-                    typeof props.appender == 'string') {
-                    props.getParent = t.getParent
-                    switch (props.appender) {
-                        case 'all':
-                            t.all = new all(props)
-                            break
-                        case 'top_one':
-                            t.top_one = new top_one(props)
-                            break
-                        case 'bottom_one':
-                            t.bottom_one = new bottom_one(props)
-                            break
-                        case 'func_all':
-                            t.func_all = new func_all(props)
-                            break
-                        case 'array':
-                            t.array = new array(props)
-                            break
-                        case 'status':
-                            t.status = new status(props)
-                            break
-                        case 'version':
-                            t.version = new version(props)
-                            break
-                        case 'sync_all':
-                            t.sync_all = new sync_all(props)
-                            break
-                        case 'name':
-                            t.name = new name(props)
-                            break
-                        default:
-                            throw new Error(`appender(${props.appender}) not found`)
-                    }
-                }
-                return t
-            }
-        } catch (e) {
-            e.message = "queueObj app.js load error: " + e.message
-            t.logMsg(e.message)
-            throw (e)
-        }
-    }
-
-    add(obj) {
-        var t = this
-        try {
-            if (t.all != null) {
-                obj._getProperty = (o) => {
-                    return 'all'
-                }
-            }
-            if (t.top_one != null) {
-                obj._getProperty = (o) => {
-                    return 'top_one'
-                }
-            }
-            if (t.bottom_one != null) {
-                t.objs = []
-                obj._getProperty = (o) => {
-                    return 'bottom_one'
-                }
-            }
-            if (t.func_all != null) {
-                obj._getProperty = (o) => {
-                    return 'func_all'
-                }
-            }
-            if (t.sync_all != null) {
-                obj._getProperty = (o) => {
-                    return 'sync_all'
-                }
-            }
-            if (t.name != null) {
-                obj._getProperty = (o) => {
-                    return 'name'
-                }
-            }
-            if (typeof obj.status != 'undefined') {
-                obj._getProperty = (o) => {
-                    return o.status
-                }
-
-            }
-            if (typeof obj.name != 'undefined') {
-                obj._getProperty = (o) => {
-                    return o.name
-                }
-
-            }
-            if (typeof obj.version != 'undefined') {
-                obj._getProperty = (o) => {
-                    return o.version
-                }
-            }
-            if (t.top_one != null) {
-                if (t.objs.length == 0) {
-                    t.objs.push(obj)
-                }
-                return t
-            }
-            t.objs.push(obj)
-            return t
-        } catch (e) {
-            e.message = "queueObj app.js add error: " + e.message
-            t.logMsg(e.message.red)
-            throw (e)
-        }
-    }
-
-    getParent() {
-        return this
-    }
-
-    getObjs() {
-        return this.objs
-    }
-
-    process(props = {}) {
-        try {
-            var t = this
-            switch (t.props.appender) {
-                case 'all':
-                    return t.all.process(props)
-                case 'top_one':
-                    return t.top_one.process(props)
-                case 'bottom_one':
-                    return t.bottom_one.process(props)
-                case 'func_all':
-                    return t.func_all.process(props)
-                case 'sync':
-                case 'sync_all':
-                    return t.sync_all.process(props)
-                case 'name':
-                    return t.name.process(props)
-                case 'status':
-                    return t.status.process(props)
-                case 'version':
-                    return t.version.process(props)
-                default:
-                    throw new Error(`nothing to process`)
-            }
-        } catch (e) {
-            e.message = "queueObj app.js load error: " + e.message
-            t.logMsg(e.message.red)
-            throw (e)
+    process(callback) {
+        let t = this
+        if (t.errors)
+            callback({ error: {msg: t.error_msg} })
+        else {
+            callback({ success: {msg: `id = ${t.id} name(${t.name}) success`} })
         }
     }
 }
 
-exports = module.exports = function (props) {
-    return new QueueObj(props)
+exports = module.exports = class QueueObj {
+    constructor() {
+        var t = this, fname = 'QueueObj.constructor'
+        try {
+            t.promise = null
+            t.resolve = null
+            t.reject = null
+            t.promise_2 = null
+            t.resolve_2q = null
+            t.reject_2q = null
+            t.successMsg = ''
+            t.log_queue = null
+
+            t.logMsg = t.logMsg.bind(t)
+            t.init = t.init.bind(t)
+            t.process = t.process.bind(t)
+            t.getFileObject = t.getFileObject.bind(t)
+
+            // t.logMsg(`QueueObj.constructor`.debug)
+
+            return t
+        } catch (e) {
+            e.message = `QueueObj app.js constructor error: ${e.message}`.error
+            console.log(e.message)
+        }
+    }
+
+    init() {
+        var t = this, fname = `QueueObj.init`
+        try {
+            t.promise = new Promise((resolve, reject) => {
+                t.resolve = resolve
+                t.reject = reject
+            })
+            t.promise_2= new Promise((resolve, reject) => {
+                t.resolve_2q = resolve
+                t.reject_2q = reject
+            })
+            return t
+        } catch (e) {
+            t.logMsg({ msg: `${fname} error: (${e.message})`.error, type: 'error' })
+            // e.message = `QueueObj app.js constructor error: ${e.message}`.error
+            // console.log(e.message)
+        }
+    }
+
+    process(props = {}) {
+        let t = this, fname = `app.process`
+
+        // if (typeof props.data_to_process_array == 'undefined')
+        //     t.reject('base_queue no props.data_to_process_array')
+
+        if (typeof props.appender == 'undefined')
+            t.reject('base_queue no props.appender')
+
+        if (typeof props.process_objects == 'undefined')
+            t.reject(`props.process_objects not defined`)
+
+        try {
+            t.log_queue = new log_queue({
+                parent: t,
+                relative_path: "../base_queue/appenders/log/",
+                exclude_logMsg: props.exclude_logMsg,
+                resolve: t.resolve,
+                reject: t.reject
+            }).init({
+                appender: "console_basic",
+                process_objects: [log_object],
+                data_to_process_array: log_data
+            })
+            t.base_queue = new base_queue({
+                parent: t,
+                relative_path: "./appenders/",
+                logMsg: t.logMsg,
+                resolve: t.resolve_2q,
+                reject: t.reject_2q
+            }).load(props).process()
+            return t.promise_2
+        } catch (e) {
+            console.log(`${fname} error: (${e.message})`)
+        }
+    }
+
+    getFileObject() {
+        return this.qJson.get_class_obj_array()
+    }
+
+    logMsg(props = { msg: '', type: '' }) {
+        let t = this, fname = "QueueObj.logMsg"
+        try {
+            if (typeof props.msg == "undefined")
+                throw new Error(`no msg property in (${JSON.stringify(props)}) `)
+            if (typeof props.type == "undefined")
+                throw new Error(`no type property in (${JSON.stringify(props)}) `)
+            if (t.log_queue != null && typeof t.log_queue.logMsg != 'undefined') {
+                t.log_queue.logMsg(props)
+            } else {
+                throw new Error(`t.log_queue does not exist`)
+            }
+        } catch (e) {
+            e.message = `${fname} error: ${e.message})`
+            t.reject(e.message)
+        }
+    }
 }

@@ -1,36 +1,44 @@
-var colors = require('colors'),
-  queue = require("../app.js")
+var queue = require("../app.js")
 
-class test1 {
+var tst1 = class test1 {
   process(callback) {
     callback({ success: { msg: `processing all test1` } })
   }
 }
 
-class test2 {
+var tst2 = class test2 {
 
   process(callback) {
     callback({ success: { msg: `processing all test2` } })
   }
 }
 
-class test3 {
+var tst3 = class test3 {
   process(callback) {
     // callback({success: { msg: `processing all test3` }})
     callback({ error: { msg: `there is some problem thrown here on test3` } })
   }
 }
 
-class test4 {
+var tst4 = class test4 {
   process(callback) {
     callback({ success: { msg: `processing all test4` } })
   }
 }
 
-let qObj = new queue(), props = { appender: 'all', stats: true }
+var qObj = new queue()
 
-qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(new test4()).process({}).then(res => {
-  qObj.logMsg(`success with all processing: (${res})`.bold.italic.green)
-}, err => {
-  qObj.logMsg(`error with all processing: (${err})`.red)  //show the execution time
+qObj.init().process({
+  appender: "all",
+  exclude_logMsg: [],   /* example ["debug", "info"] */
+  process_objects: [tst1, tst2, tst3, tst4]
+}).then((success) => {
+  qObj.logMsg({msg: `test success: {msg: "all objects processed with no errors"}`.success, type: "success"})
+}, (error) => {
+  if (typeof error == "string") {
+    qObj.logMsg({msg: `error: ${error}`.error, type: "error"})
+} else {
+    let add_s = (error.error_count > 1) ? 's' : ''
+    qObj.logMsg({msg: `${error.error_count} error${add_s} detected`.error, type: "error"})
+  }
 })

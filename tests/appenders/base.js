@@ -1,12 +1,12 @@
 /*
 * @author Jim Manton: jrman@risebroadband.net
-* @since 2023-02-06
+* @since 2017-10-01
 * lib/appenders/base.js
 */
 
 var colors = require('colors')
 
-class process_all_obj {
+class process_object {
     constructor(props) {
         let t = this
         t.parent = props.parent
@@ -20,7 +20,7 @@ class process_all_obj {
         t.continueProcessing = t.continueProcessing.bind(t)
     }
 
-    process () {
+    process = () => {
         let t = this
         try {
             if (t.process_objs_item >= t.objs.length) {
@@ -82,23 +82,23 @@ class process_all_obj {
                 throw e
             }
         } catch (e) {
-            e.message = `process_all_obj error: ${e.message} `
+            e.message = `process_object error: ${e.message} `
             throw e
         }
     }
 
-    continueProcessing () {
+    continueProcessing = () => {
         let t = this
         t.process_objs_item++
         t.setStatus('process')
         t.parent.process_all()
     }
 
-    getStatus () {
+    getStatus = () => {
         return this.status
     }
 
-    setStatus (v) {
+    setStatus = (v) => {
         this.status = v
     }
 }
@@ -113,7 +113,7 @@ exports = module.exports = class base {
         t.getParent = props.getParent
         t.dt_start = null
         t.dt_end = null
-        t.process_all_obj = null
+        t.process_object = null
         t.pro_props = []
 
         t.process = t.process.bind(this)
@@ -153,17 +153,17 @@ exports = module.exports = class base {
         return ret_str   
     }
 
-    process_all () {
+    process_all = () => {
         let t = this, _continue
-        if (t.process_all_obj == null) {
-            t.process_all_obj = new process_all_obj({ parent: t })
+        if (t.process_object == null) {
+            t.process_object = new process_object({ parent: t })
         }
 
         _continue = false
         try {
-            switch (t.process_all_obj.getStatus()) {
+            switch (t.process_object.getStatus()) {
                 case 'process':
-                    t.process_all_obj.process()
+                    t.process_object.process()
                     _continue = true
                     break
                 case 'finish with errors':
@@ -175,7 +175,7 @@ exports = module.exports = class base {
                 case 'wait':
                     return
                 default:
-                    throw new Error(`status(${t.process_all_obj.getStatus()}) does not exist`)
+                    throw new Error(`status(${t.process_object.getStatus()}) does not exist`)
             }
 
             if (_continue)

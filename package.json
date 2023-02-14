@@ -2,26 +2,25 @@
   "author": {
     "name": "Jim Manton"
   },
-  "version": "12.0.18",
-  "bundleDependencies": false,
+  "version": "2.0.4",
+  "bundleDependencies": [],
   "dependencies": {
+    "@types/node": "^18.11.19",
     "chai": "^4.3.7",
-    "colors": "^1.1.4",
+    "colors": "^1.4.0",
     "diffler": "^2.0.4",
-    "mocha": "^10.2.0"
+    "fs": "^0.0.1-security",
+    "mocha": "^10.2.0",
+    "queuejson": "^9.0.11",
+    "typescript": "^4.9.5",
+    "valid-path": "^2.1.0"
   },
   "scripts": {
     "start": "node app.ts",
     "test": "mocha",
     "ditched": "ditched -a",
-    "test_all": "node ./tests/test_all",
-    "test_bottom_one": "node ./tests/test_bottom_one",
-    "test_func_all": "node ./tests/test_func_all",
-    "test_sync_all": "node ./tests/test_sync_all",
-    "test_status": "node ./tests/test_status",
-    "test_name": "node ./tests/test_name",
-    "test_top_one": "node ./tests/test_top_one",
-    "test_version": "node ./tests/test_version"
+    "test_files": "node ./tests/files",
+    "test_all": "node ./tests/test_all"
   },
   "keywords": [
     "queue",
@@ -33,16 +32,16 @@
     "promises",
     "mocha"
   ],
-  "homepage": "https://github.com/jman717/QueueObj",
+  "homepage": "https://github.com/jman717/file-obj-queue",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jman717/QueueObj.git"
+    "url": "git+https://github.com/jman717/file-obj-queue.git"
   },
   "deprecated": false,
-  "description": "Queue Objects For Processing",
+  "description": "Queue File Objects",
   "email": "jrman@risebroadband.net",
   "license": "MIT",
   "main": "app.js",
-  "name": "queueobj",
+  "name": "file-obj-queue",
   "start": "node app.js"
 }
