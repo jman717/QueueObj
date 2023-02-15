@@ -20,7 +20,8 @@
     "test": "mocha",
     "ditched": "ditched -a",
     "test_files": "node ./tests/files",
-    "test_all": "node ./tests/test_all"
+    "test_all": "node ./tests/test_all",
+    "test_json_all": "node ./tests/json_all"
   },
   "keywords": [
     "queue",

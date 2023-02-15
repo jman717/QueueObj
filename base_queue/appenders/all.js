@@ -39,8 +39,9 @@ exports = module.exports = class all extends base {
 				throw new Error(`get_objects_to_process[0] has no data`)
 
 			t.get_objects_to_process().map((dat, i) => {
+				dat = {props: {id: (i+1), log: t.parent.logMsg}}
 				obj = t.get_objects_to_process()[i]
-				t.main_process_objects.push(new obj())
+				t.main_process_objects.push(new obj(dat.props))
 			})
 
 			super.init(props)

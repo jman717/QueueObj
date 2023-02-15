@@ -5,12 +5,13 @@
 
 [![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
 
-Queue javascript objects dynamically then process the queue according to the appender. All appenders from QueueJson have been rolled into this object processing.
+Queue javascript objects dynamically then process the queue according to the appender. 
 
 Included tag appenders:
 
-* files - See if files exists, does quick check on all appenders.
-* all - synchronous - process all added objects.
+* files - See if inputed files exists.
+* all - process all added objects.
+* json_all - process one class object per json input array variables.
 
 * func_all - synchronous - process custom functions to added objects.
 * top_one - synchronous - process only the object in the 0(zero) position of the process array.
@@ -29,6 +30,11 @@ npm test
 General Setup Test
 ---------
 ```
+npm run test_files
+npm run test_all
+npm run test_json_all
+
+
 npm run test_all
 npm run test_top_one
 npm run test_bottom_one
