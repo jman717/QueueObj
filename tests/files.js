@@ -3,14 +3,14 @@ var file_queue = require("../app.js"),
     validPath = require('valid-path')
 
 var file_data = [
-    { props: { id: 100, name: "all", absolute_path: __filename, check: true } },
-    { props: { id: 101, name: "func_all", absolute_path: __filename, check: true } },
-    { props: { id: 102, name: "top_one", absolute_path: __filename, check: true } },
-    { props: { id: 103, name: "bottom_one", absolute_path: __filename, check: true } },
-    { props: { id: 104, name: "sync_all", absolute_path: __filename, check: true } },
-    { props: { id: 105, name: "status", absolute_path: __filename, check: true } },
-    { props: { id: 106, name: "name", absolute_path: __filename, check: true } },
-    { props: { id: 107, name: "version", absolute_path: __filename, check: true } }
+    { props: { id: 100, name: "all.js", absolute_path: __filename, check: true } },
+    { props: { id: 101, name: "func_all.js", absolute_path: __filename, check: true } },
+    { props: { id: 102, name: "top_one.js", absolute_path: __filename, check: true } },
+    { props: { id: 103, name: "bottom_one.js", absolute_path: __filename, check: true } },
+    { props: { id: 104, name: "sync_all.js", absolute_path: __filename, check: true } },
+    { props: { id: 105, name: "status.js", absolute_path: __filename, check: true } },
+    { props: { id: 106, name: "name.js", absolute_path: __filename, check: true } },
+    { props: { id: 107, name: "version.js", absolute_path: __filename, check: true } }
 ]
 
 var file_object = class file_obj {
@@ -48,6 +48,7 @@ var file_object = class file_obj {
     do_checks() {
         let t = this, path_to_check,
             last_item = t.absolute_path.split("\\").pop(),
+            fname = `file_obj.do_checks`,
             check_file = t.absolute_path.split(last_item)[0], check_path = t.path.split('/')
 
         check_file = check_file.replace(/\\/g, "/");
@@ -64,11 +65,12 @@ var file_object = class file_obj {
                     check_file += dat + '/'
             }
         })
-        check_file = check_file.slice(0, -1)
+        check_file += `${t.name}`
         try {
             if (!fs.existsSync(check_file)) {
                 t.errors = true
                 t.error_msg = `id = ${t.id} name(${t.name}) file (${check_file} does not exist)`
+                t.log({ msg: t.error_msg.error, type: "error" })
             }
         } catch (e) {
             e.message = "file_obj do_checks error: " + e.message
@@ -90,7 +92,7 @@ var qRequire = new file_queue()
 
 qRequire.init().process({
     appender: "json_all",
-    exclude_logMsg: [],   /* default [] */
+    exclude_logMsg: ["debug", "silly"],   /* default [] */
     process_objects: [file_object],
     data_to_process_array: file_data
 }).then((success) => {

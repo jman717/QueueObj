@@ -19,6 +19,8 @@ exports = module.exports = class BaseQueue {
             t.init = t.init.bind(t)
             t.load = t.load.bind(t)
             t.process = t.process.bind(t)
+            t.process_count = 0
+            t.reported = false
 
             if (typeof props.parent == 'undefined') {
                 console.log(`${fname}: props.parent not defined`)
@@ -36,7 +38,8 @@ exports = module.exports = class BaseQueue {
     }
 
     init(props = {}) {
-        let t = this, fname = `BaseQueue init`
+        let t = this, fname = `BaseQueue.init`
+        t.logMsg({ msg: `${fname}`.debug, type: 'debug' })
     }
 
     load(props = {}) {
@@ -63,24 +66,44 @@ exports = module.exports = class BaseQueue {
     }
 
     process() {
-        let t = this, fname = `BaseQueue.process`, res, error_count = 0
-        try {
-            t.logMsg({ msg: `${fname}`.debug, type: 'debug' })
-
-            res = t.appender.init().process().get_results_array()
-            res.map((json, i) => {
-                if (typeof json.success != "undefined")
-                    t.logMsg({ msg: `${JSON.stringify(json.success)}`.success, type: 'success' })
-                if (typeof json.error != "undefined") {
-                    t.logMsg({ msg: `${JSON.stringify(json.error)}`.error, type: 'error' })
-                    error_count++
-                }
-            })
-            if (error_count) {
-                res.error_count = error_count
-                t.reject(res)
-            } else
-                t.resolve(res)
+        let t = this, fname = `BaseQueue.process`, app, res, error_count = 0
+        try {  
+            t.logMsg({ msg: `${fname} status(${t.appender.status}) process_count(${t.process_count}) process array size(${t.appender.main_process_objects.length})`.debug, type: 'debug' })
+            if (t.process_count > t.appender.main_process_objects.length)
+                t.appender.status = "done"
+            switch (t.appender.status) {
+                case "init":
+                    t.appender.init()
+                    break
+                case "process":
+                    t.appender.process()
+                    break
+                case "wait":
+                    setTimeout(() => {
+                        t.process()  
+                    }, 2000)
+                    break
+                case "done":
+                    if (!t.reported) {
+                        t.reported = true
+                        res = t.appender.get_results_array()
+                        res.map((json, i) => {
+                            if (typeof json.success != "undefined")
+                                t.logMsg({ msg: `${JSON.stringify(json.success)}`.success, type: 'success' })
+                            if (typeof json.error != "undefined") {
+                                t.logMsg({ msg: `${JSON.stringify(json.error)}`.error, type: 'error' })
+                                error_count++
+                            }
+                        })
+                        if (error_count) {
+                            res.error_count = error_count
+                            t.reject(res)
+                        } else {
+                            t.resolve(`res`)
+                        }
+                    }
+                    return
+            }
         } catch (e) {
             t.reject(`${fname}: ${e.message}.`)
         }

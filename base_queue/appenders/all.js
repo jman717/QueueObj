@@ -17,7 +17,7 @@ exports = module.exports = class all extends base {
 			if (t.appender != t.aname)
 				throw new Error(`(${t.appender}) does not equal the appender name (${t.aname}))`)
 
-			t.parent.logMsg({msg: `${fname}`.debug, type: "debug"})
+			t.parent.logMsg({msg: `${fname} objects to process count(${t.get_objects_to_process().length})`.debug, type: "debug"})
 
 			t.init = t.init.bind(t)
 			t.process = t.process.bind(t)
@@ -57,12 +57,6 @@ exports = module.exports = class all extends base {
 		var t = this, fname = `all.process`
 		try {
 			t.parent.logMsg({msg: `${fname}`.debug, type: "debug"})
-
-			t.main_process_objects.map((obj, i) => {
-				obj.process((res) => {
-					t.results_array.push(res)
-				})
-			})
 
 			super.process(props)
 			return t

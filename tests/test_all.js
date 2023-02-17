@@ -1,7 +1,15 @@
 var queue = require("../app.js")
 
 var tst1 = class test1 {
+  constructor(props) {
+    let t = this, fname = "test_all.test1.constructor"
+    t.log = props.log
+    t.id = props.id
+  }
+
   process(callback) {
+    let t = this, fname = "test_all.test1.process"
+    t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
     callback({ success: { msg: `processing all test1` } })
   }
 }
@@ -9,23 +17,45 @@ var tst1 = class test1 {
 var tst2 = class test2 {
   constructor(props) {
     let t = this, fname = "test_all.test2.constructor"
-
-    props.log({msg: `This object is id (${props.id}). Doing processing here`.bgBrightCyan, type: "info"})
-    }
-  process(callback) {
-      callback({ success: { msg: `processing all test2` } })
-    }
+    t.log = props.log
+    t.id = props.id
   }
 
-var tst3 = class test3 {
   process(callback) {
+    let t = this, fname = "test_all.test2.process"
+    t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
+    setTimeout(() => {
+      callback({ success: { msg: `processing all test2` } })
+    }, 4000)
+  }
+}
+
+var tst3 = class test3 {
+  constructor(props) {
+    let t = this, fname = "test_all.test3.constructor"
+    t.log = props.log
+    t.id = props.id
+  }
+
+  process(callback) {
+    let t = this, fname = "test_all.test3.process"
+    t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
     // callback({success: { msg: `processing all test3` }})
     callback({ error: { msg: `there is some problem thrown here on test3` } })
   }
 }
 
 var tst4 = class test4 {
+  constructor(props) {
+    let t = this, fname = "test_all.test4.constructor"
+    t.log = props.log
+    t.id = props.id
+
+  }
+
   process(callback) {
+    let t = this, fname = "test_all.test4.process"
+    t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
     callback({ success: { msg: `processing all test4` } })
   }
 }

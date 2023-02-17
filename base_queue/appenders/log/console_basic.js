@@ -57,20 +57,12 @@ exports = module.exports = class console_basic extends base {
 		}
 	}
 
-	process(props = {}) {
+	process() {
 		var t = this, fname = `console_basic.process`
 		try {
 			t.parent.logMsg({ msg: `${fname}`.debug, type: "debug" })
 
-			t.main_process_objects.map((obj, i) => {
-				obj.process((res) => {
-					t.results_array.push(res)
-					if (typeof res.error != "undefined")
-						console.log(`${fname} error: (${JSON.stringify(res)})`)
-				})
-			})
-
-			super.process(props)
+			super.process()
 			return t
 		} catch (e) {
 			e.message = `${fname} error: ${e.message})`

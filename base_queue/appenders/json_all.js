@@ -35,7 +35,7 @@ exports = module.exports = class json_all extends base {
 
 	init(props = {}) {
 		var t = this, fname = `json_all.init`, gotp, gdtpa, obj
-		try {
+		try {``
 			t.parent.logMsg({ msg: `${fname}`.debug, type: "debug" })
 
 			if (typeof t.get_objects_to_process()[0] == "undefined")
@@ -49,7 +49,8 @@ exports = module.exports = class json_all extends base {
 					t.main_process_objects.push(new obj(dat.props))
 				})
 			} catch (e) {
-				e.message = "get_data_to_process_array error"
+				e.message = `${fname} error: ${e.message}`
+				t.parent.logMsg({msg: e.message.error, type: "error"})
 				throw e
 			}
 
@@ -66,12 +67,6 @@ exports = module.exports = class json_all extends base {
 		var t = this, fname = `json_all.process`
 		try {
 			t.parent.logMsg({msg: `${fname} length(${t.main_process_objects.length})`.debug, type: "debug"})
-
-			t.main_process_objects.map((obj, i) => {
-				obj.process((res) => {
-					t.results_array.push(res)
-				})
-			})
 
 			super.process(props)
 			return t

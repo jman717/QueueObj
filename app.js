@@ -87,7 +87,7 @@ exports = module.exports = class QueueObj {
             t.promise = null
             t.resolve = null
             t.reject = null
-            t.promise_2 = null
+            t.promise_2q = null
             t.resolve_2q = null
             t.reject_2q = null
             t.successMsg = ''
@@ -114,7 +114,7 @@ exports = module.exports = class QueueObj {
                 t.resolve = resolve
                 t.reject = reject
             })
-            t.promise_2= new Promise((resolve, reject) => {
+            t.promise_2q= new Promise((resolve, reject) => {
                 t.resolve_2q = resolve
                 t.reject_2q = reject
             })
@@ -150,14 +150,14 @@ exports = module.exports = class QueueObj {
                 process_objects: [log_object],
                 data_to_process_array: log_data
             })
-            t.base_queue = new base_queue({
+            t.base_queue = new base_queue({   
                 parent: t,
                 relative_path: "./appenders/",
                 logMsg: t.logMsg,
                 resolve: t.resolve_2q,
                 reject: t.reject_2q
             }).load(props).process()
-            return t.promise_2
+            return t.promise_2q
         } catch (e) {
             console.log(`${fname} error: (${e.message})`)
         }
