@@ -1,17 +1,17 @@
 /*
 * @author Jim Manton: jrman@risebroadband.net
 * @since 2023-2-5
-* json_all.js
+* json_bottom_one.js
 */
 
 var base = require('./base.js')
 
-exports = module.exports = class json_all extends base {
+exports = module.exports = class json_bottom_one extends base {
 	constructor(props) {
 		super(props)
-		var t = this, fname = 'json_all.constructor'
+		var t = this, fname = 'json_bottom_one.constructor'
 		try {
-			t.aname = 'json_all'
+			t.aname = 'json_bottom_one'
 			t.main_process_objects = []
 
 			if (typeof props.data_to_process_array == 'undefined')
@@ -34,7 +34,7 @@ exports = module.exports = class json_all extends base {
 	}
 
 	init(props = {}) {
-		var t = this, fname = `json_all.init`, gotp, gdtpa, obj
+		var t = this, fname = `json_bottom_one.init`, obj, dat, len
 		try {``
 			t.parent.logMsg({ msg: `${fname}`.debug, type: "debug" })
 
@@ -43,11 +43,11 @@ exports = module.exports = class json_all extends base {
 
 			try {
 				obj = t.get_objects_to_process()[0]
-				t.get_data_to_process_array().map((dat, i) => {
-					dat.props.log = t.parent.logMsg
-					dat.props.relative_path = t.relative_path
-					t.main_process_objects.push(new obj(dat.props))
-				})
+				len = t.get_data_to_process_array().length - 1
+				dat = t.get_data_to_process_array()[len]
+				dat.props.log = t.parent.logMsg
+				dat.props.relative_path = t.relative_path
+				t.main_process_objects.push(new obj(dat.props))
 			} catch (e) {
 				e.message = `${fname} error: ${e.message}`
 				t.parent.logMsg({msg: e.message.error, type: "error"})
@@ -64,7 +64,7 @@ exports = module.exports = class json_all extends base {
 	}
 
 	process(props = {}) {
-		var t = this, fname = `json_all.process`
+		var t = this, fname = `json_bottom_one.process`
 		try {
 			t.parent.logMsg({msg: `${fname} length(${t.main_process_objects.length})`.debug, type: "debug"})
 

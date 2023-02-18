@@ -2,13 +2,13 @@ var queue = require("../app.js")
 
 var tst1 = class test1 {
   constructor(props) {
-    let t = this, fname = "test_all.test1.constructor"
+    let t = this, fname = "test_bottom_one.test1.constructor"
     t.log = props.log
     t.id = props.id
   }
 
   process(callback) {
-    let t = this, fname = "test_all.test1.process"
+    let t = this, fname = "test_bottom_one.test1.process"
     t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
     callback({ success: { msg: `processing all test1` } })
   }
@@ -16,13 +16,13 @@ var tst1 = class test1 {
 
 var tst2 = class test2 {
   constructor(props) {
-    let t = this, fname = "test_all.test2.constructor"
+    let t = this, fname = "test_bottom_one.test2.constructor"
     t.log = props.log
     t.id = props.id
   }
 
   process(callback) {
-    let t = this, fname = "test_all.test2.process"
+    let t = this, fname = "test_bottom_one.test2.process"
     t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
     setTimeout(() => {
       callback({ success: { msg: `processing all test2` } })
@@ -32,13 +32,13 @@ var tst2 = class test2 {
 
 var tst3 = class test3 {
   constructor(props) {
-    let t = this, fname = "test_all.test3.constructor"
+    let t = this, fname = "test_bottom_one.test3.constructor"
     t.log = props.log
     t.id = props.id
   }
 
   process(callback) {
-    let t = this, fname = "test_all.test3.process"
+    let t = this, fname = "test_bottom_one.test3.process"
     t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
     // callback({success: { msg: `processing all test3` }})
     callback({ error: { msg: `there is some problem thrown here on test3` } })
@@ -47,14 +47,14 @@ var tst3 = class test3 {
 
 var tst4 = class test4 {
   constructor(props) {
-    let t = this, fname = "test_all.test4.constructor"
+    let t = this, fname = "test_bottom_one.test4.constructor"
     t.log = props.log
     t.id = props.id
 
   }
 
   process(callback) {
-    let t = this, fname = "test_all.test4.process"
+    let t = this, fname = "test_bottom_one.test4.process"
     t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
     callback({ success: { msg: `processing all test4` } })
   }
@@ -63,11 +63,11 @@ var tst4 = class test4 {
 var qObj = new queue()
 
 qObj.init().process({
-  appender: "all",
+  appender: "bottom_one",
   exclude_logMsg: ["debug"],   /* example ["debug", "info"] */
   process_objects: [tst1, tst2, tst3, tst4]
 }).then((success) => {
-  qObj.logMsg({ msg: `test success: {msg: "all objects processed with no errors"}`.success.italic.bold, type: "success" })
+  qObj.logMsg({ msg: `test success: {msg: "bottom_one object processed with no errors"}`.success.italic.bold, type: "success" })
 }, (error) => {
   if (typeof error == "string") {
     qObj.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })

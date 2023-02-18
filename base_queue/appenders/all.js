@@ -31,7 +31,7 @@ exports = module.exports = class all extends base {
 	}
 
 	init(props = {}) {
-		var t = this, fname = `all.init`, gotp, gdtpa, obj
+		var t = this, fname = `all.init`, obj
 		try {
 			t.parent.logMsg({msg: `${fname}`.debug, type: "debug"})
 

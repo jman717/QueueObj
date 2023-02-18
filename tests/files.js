@@ -96,14 +96,13 @@ qRequire.init().process({
     process_objects: [file_object],
     data_to_process_array: file_data
 }).then((success) => {
-    qRequire.logMsg({ msg: `test success: all file objects processed with no errors`.success.success, type: "success" })
+    qRequire.logMsg({ msg: `test success: all file objects processed with no errors`.success.italic.bold, type: "success" })
 }, (error) => {
     if (typeof error == "string") {
-        qRequire.logMsg(`error: ${error}`.error)
-
+        qRequire.logMsg({msg: `error: ${error}`.error.italic.bold, type: "error"})
     } else {
         let add_s = (error.error_count > 1) ? 's' : ''
-        qRequire.logMsg({ msg: `${error.error_count} error${add_s} detected`.error.error, type: "error" })
+        qRequire.logMsg({ msg: `${error.error_count} error${add_s} detected`.error.italic.bold, type: "error" })
     }
 })
 

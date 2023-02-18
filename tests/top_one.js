@@ -63,11 +63,11 @@ var tst4 = class test4 {
 var qObj = new queue()
 
 qObj.init().process({
-  appender: "all",
+  appender: "top_one",
   exclude_logMsg: ["debug"],   /* example ["debug", "info"] */
   process_objects: [tst1, tst2, tst3, tst4]
 }).then((success) => {
-  qObj.logMsg({ msg: `test success: {msg: "all objects processed with no errors"}`.success.italic.bold, type: "success" })
+  qObj.logMsg({ msg: `test success: {msg: "top_one object processed with no errors"}`.success.italic.bold, type: "success" })
 }, (error) => {
   if (typeof error == "string") {
     qObj.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })

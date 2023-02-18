@@ -11,7 +11,11 @@ Included tag appenders:
 
 * files - See if inputed files exists.
 * all - process all added objects.
-* json_all - process one class object per json input array variables.
+* top_one - process only the object in the 0(zero) position of the process array.
+* bottom_one - process only the object in the last position of the process array.
+* json_all - process a class object per json input array variables.
+* json_top_one - process a class object per the first json input array variable.
+* json_bottom_one - process a class object per the last json input array variable.
 
 * func_all - synchronous - process custom functions to added objects.
 * top_one - synchronous - process only the object in the 0(zero) position of the process array.
@@ -32,10 +36,11 @@ General Setup Test
 ```
 npm run test_files
 npm run test_all
+npm run test_top_one
+
 npm run test_json_all
 
 
-npm run test_all
 npm run test_top_one
 npm run test_bottom_one
 npm run test_func_all
@@ -44,82 +49,102 @@ npm run test_status
 npm run test_version
 npm run test_name
 
+queuejson tests
+npm run test_all
+npm run test_top_one
+npm run test_bottom_one
+npm run test_func_all
+npm run test_sync_all
+npm run test_by_name_matching
+npm run test_by_name_non_matching
+npm run test_by_status_matching
+npm run test_by_status_non_matching
+npm run test_by_version_matching
+npm run test_by_version_non_matching
+
 ```
 
 Usage
 ---------
 ```js
 
-var colors = require('colors')
 var queue = require("queueobj");
 
-class test1 {
-    constructor() {
-        this.id = 100
-        this.process = this.process.bind(this)
-    }
+var tst1 = class test1 {
+  constructor(props) {
+    let t = this, fname = "test_all.test1.constructor"
+    t.log = props.log
+    t.id = props.id
+  }
 
-    process(callback) {
-        setTimeout(() => {
-            console.log(`processing test1`.cyan)
-            console.log(`some async process`)
-            callback({success: {msg: `processing all (${this.id})`}})
-        }, 3000)
-    }
+  process(callback) {
+    let t = this, fname = "test_all.test1.process"
+    t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
+    callback({ success: { msg: `processing all test1` } })
+  }
 }
 
-class test2 {
-    constructor() {
-        this.id = 200
-        this.process = this.process.bind(this)
-    }
+var tst2 = class test2 {
+  constructor(props) {
+    let t = this, fname = "test_all.test2.constructor"
+    t.log = props.log
+    t.id = props.id
+  }
 
-    process(callback) {
-        let msg = `some kinda problem here in id(${this.id})`
-        // callback({error: {msg: msg}})  //this will show errors
-        callback({success: {msg: `processing all (${this.id})}`}})   //this will show no errors
-    }
-
-    ping() {
-        console.log('hello from test2'.rainbow)
-    }
+  process(callback) {
+    let t = this, fname = "test_all.test2.process"
+    t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
+    setTimeout(() => {
+      callback({ success: { msg: `processing all test2` } })
+    }, 4000)
+  }
 }
 
-class test3 {
-    constructor() {
-        this.id = 300
-        this.process = this.process.bind(this)
-    }
+var tst3 = class test3 {
+  constructor(props) {
+    let t = this, fname = "test_all.test3.constructor"
+    t.log = props.log
+    t.id = props.id
+  }
 
-    process(callback) {
-        callback({success: {msg: `processing all (${this.id})}`}})   
-    }
+  process(callback) {
+    let t = this, fname = "test_all.test3.process"
+    t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
+    // callback({success: { msg: `processing all test3` }})
+    callback({ error: { msg: `there is some problem thrown here on test3` } })
+  }
 }
 
-class test4 {
-    constructor() {
-        let t = this
-        t.id = 400
-        t.custom_function = t.custom_function.bind(this)
-    }
+var tst4 = class test4 {
+  constructor(props) {
+    let t = this, fname = "test_all.test4.constructor"
+    t.log = props.log
+    t.id = props.id
 
-    custom_function(callback) {
-        let msg = `custom func problem here id(${this.id})`
-        setTimeout(() => {
-            // callback({error: {msg: msg}})  //this will show errors
-            callback({success: {msg: `processing all (${this.id})}`}})   //this will show no errors
-        }, 3000)
-    }
+  }
+
+  process(callback) {
+    let t = this, fname = "test_all.test4.process"
+    t.log({ msg: `This object (${fname}) is id (${t.id}). Do stuff here`.bgBrightGreen, type: "info" })
+    callback({ success: { msg: `processing all test4` } })
+  }
 }
-let tst4 = new test4()
-let qObj = new queue(), props = { appender: 'name' }
 
-qObj.load(props).add(new test1()).add(new test2()).add(new test3()).add(tst4.custom_function)
+var qObj = new queue()
 
-qObj.process().then(res => {
-    console.log(`success with all sync processing: (${JSON.stringify(res)})`.green)
-}, err => {
-    console.log(`errors with all sync processing: (${JSON.stringify(err)})`.red)
+qObj.init().process({
+  appender: "all",
+  exclude_logMsg: ["debug"],   /* example ["debug", "info"] */
+  process_objects: [tst1, tst2, tst3, tst4]
+}).then((success) => {
+  qObj.logMsg({ msg: `test success: {msg: "all objects processed with no errors"}`.success.italic.bold, type: "success" })
+}, (error) => {
+  if (typeof error == "string") {
+    qObj.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })
+  } else {
+    let add_s = (error.error_count > 1) ? 's' : ''
+    qObj.logMsg({ msg: `${error.error_count} error${add_s} detected`.error.italic.bold, type: "error" })
+  }
 })
 
 ```
