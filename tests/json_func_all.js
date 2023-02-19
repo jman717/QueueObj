@@ -30,10 +30,11 @@ var file_object = class file_obj {
             //     t.errors = true
             //     t.error_msg = `some sort of error here`    
             // }
-            // }
+            t.base_queue_process_function = t.a_cool_function
 
-            t.process = t.process.bind(t)
             t.do_checks = t.do_checks.bind(t)
+            t.a_cool_function = t.a_cool_function.bind(t)
+            t.base_queue_process_function = t.base_queue_process_function.bind(t)
 
             if (props.check) {
                 t.do_checks()
@@ -77,28 +78,28 @@ var file_object = class file_obj {
         }
     }
 
-    process(callback) {
+    a_cool_function(callback) {
         let t = this
-        t.log({ msg: `processing object id ${t.id} name: ${t.name}. Do a bunch of stuff here.`.silly, type: "silly" })
+        t.log({ msg: `processing object id ${t.id}. Do a bunch of stuff here.`.silly, type: "silly" })
         if (t.errors)
             callback({ error: { msg: t.error_msg } })
         else
-            callback({ success: { msg: `id: ${t.id} name: ${t.name}` } })
+            callback({ success: { msg: `id = ${t.id} name(${t.name})` } })
     }
 }
 
 var qRequire = new file_queue()
 
 qRequire.init().process({
-    appender: "json_top_one",
+    appender: "json_func_all",
     exclude_logMsg: ["debug", "silly", "info"],   /* default [] */
     process_objects: [file_object],
     data_to_process_array: file_data
 }).then((success) => {
-    qRequire.logMsg({ msg: `test success: json_top_one file objects processed with no errors`.success.italic.bold, type: "success" })
+    qRequire.logMsg({ msg: `test success: json_func_all objects processed with no errors`.success.italic.bold, type: "success" })
 }, (error) => {
     if (typeof error == "string") {
-        qRequire.logMsg({msg: `error: ${error}`.error.italic.bold, type: "error"})
+        qRequire.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })
 
     } else {
         let add_s = (error.error_count > 1) ? 's' : ''

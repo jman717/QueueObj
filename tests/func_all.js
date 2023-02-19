@@ -83,7 +83,7 @@ qObj.init().process({
   exclude_logMsg: ["debug"],   /* example ["debug", "info"] */
   process_objects: [tst1, tst2, tst3, tst4],
 }).then((success) => {
-  qObj.logMsg({ msg: `test success: {msg: "all objects processed with no errors"}`.success.italic.bold, type: "success" })
+  qObj.logMsg({ msg: `test success: {msg: "func_all objects processed with no errors"}`.success.italic.bold, type: "success" })
 }, (error) => {
   if (typeof error == "string") {
     qObj.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })

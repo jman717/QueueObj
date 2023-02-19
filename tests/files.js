@@ -96,7 +96,7 @@ qRequire.init().process({
     process_objects: [file_object],
     data_to_process_array: file_data
 }).then((success) => {
-    qRequire.logMsg({ msg: `test success: all file objects processed with no errors`.success.italic.bold, type: "success" })
+    qRequire.logMsg({ msg: `test success: file objects processed with no errors`.success.italic.bold, type: "success" })
 }, (error) => {
     if (typeof error == "string") {
         qRequire.logMsg({msg: `error: ${error}`.error.italic.bold, type: "error"})
