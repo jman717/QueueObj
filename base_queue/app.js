@@ -67,10 +67,10 @@ exports = module.exports = class BaseQueue {
 
     process() {
         let t = this, fname = `BaseQueue.process`, app, res, error_count = 0
-        try {  
-            t.logMsg({ msg: `${fname} status(${t.appender.status}) process_count(${t.process_count}) process array size(${t.appender.main_process_objects.length})`.debug, type: 'debug' })
+        try {
             if (t.process_count > t.appender.main_process_objects.length)
                 t.appender.status = "done"
+            t.logMsg({ msg: `${fname} status(${t.appender.status}) process_count(${t.process_count}) process array size(${t.appender.main_process_objects.length})`.debug, type: 'debug' })
             switch (t.appender.status) {
                 case "init":
                     t.appender.init()
@@ -80,7 +80,7 @@ exports = module.exports = class BaseQueue {
                     break
                 case "wait":
                     setTimeout(() => {
-                        t.process()  
+                        t.process()
                     }, 2000)
                     break
                 case "done":
@@ -99,10 +99,10 @@ exports = module.exports = class BaseQueue {
                             res.error_count = error_count
                             t.reject(res)
                         } else {
-                            t.resolve(`res`)
+                            t.resolve(res)
                         }
                     }
-                    return
+                    return t
             }
         } catch (e) {
             t.reject(`${fname}: ${e.message}.`)

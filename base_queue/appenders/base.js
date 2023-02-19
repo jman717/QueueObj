@@ -47,30 +47,41 @@ exports = module.exports = class base {
     }
 
     process() {
-        var t = this, fname = `base.process`, pro
+        var t = this, fname = `base.process`, pro, pro_process
         try {
             t.parent.logMsg({ msg: `${fname}`.debug, type: "debug" })
 
+            if (t.parent.process_count > t.main_process_objects.length) {
+                t.status = "done"
+                t.parent.process()
+                return
+            }
             if (t.status == "process") {
                 pro = t.main_process_objects[t.parent.process_count++]
-                if (t.parent.process_count > t.main_process_objects.length) {
-                    t.status = "done"
-                    t.parent.process()
-                    return
-                }
+                if (typeof pro != "undefined") {
+                    if (typeof pro.base_queue_process_function == "function")
+                        pro_process = pro.base_queue_process_function
+                    else
+                        if (typeof pro.process == "function")
+                            pro_process = pro.process
 
-                t.parent.logMsg({ msg: `${fname} status(${t.status}) count(${t.parent.process_count}) main objects(${t.main_process_objects.length})`.debug, type: "debug" })
-                pro.process((res) => {
-                    t.results_array.push(res)
-                    t.status = "process"
-                    t.parent.process()
-                    return
-                })
+                    t.parent.logMsg({ msg: `${fname} status(${t.status}) count(${t.parent.process_count}) main objects(${t.main_process_objects.length})`.debug, type: "debug" })
+
+                    pro_process((res) => {
+                        t.results_array.push(res)
+                        t.status = "process"
+                        t.parent.process()
+                        return
+                    })
+                } else
+                    t.status = "done"
             }
-            t.status = "wait"
+            if (t.status != "done")
+                t.status = "wait"
             t.parent.process()
         } catch (e) {
             e.message = `${fname} error: ${e.message})`
+            t.parent.logMsg({ msg: `${fname} error: (${e.message})`.error, type: "error" })
             throw e
             // t.parent.app_reject(`${fname} error: ${e.message})`)
         }

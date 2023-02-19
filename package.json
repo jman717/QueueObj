@@ -2,7 +2,7 @@
   "author": {
     "name": "Jim Manton"
   },
-  "version": "2.0.5",
+  "version": "2.0.6",
   "bundleDependencies": [],
   "dependencies": {
     "@types/node": "^18.11.19",
@@ -20,9 +20,10 @@
     "test": "mocha",
     "ditched": "ditched -a",
     "test_files": "node ./tests/files",
-    "test_all": "node ./tests/test_all",
+    "test_all": "node ./tests/all",
     "test_top_one": "node ./tests/top_one",
     "test_bottom_one": "node ./tests/bottom_one",
+    "test_func_all": "node ./tests/func_all",
     "test_json_all": "node ./tests/json_all",
     "test_json_top_one": "node ./tests/json_top_one",
     "test_json_bottom_one": "node ./tests/json_bottom_one"

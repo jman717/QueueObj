@@ -5,7 +5,7 @@
 
 [![NPM](https://nodei.co/npm/queueobj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queueobj/)
 
-Queue javascript objects dynamically then process the queue according to the appender. 
+Queue javascript objects dynamically then process the queue according to the appender. All appenders are handled synchronously.
 
 Included tag appenders:
 

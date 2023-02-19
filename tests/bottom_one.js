@@ -5,6 +5,8 @@ var tst1 = class test1 {
     let t = this, fname = "test_bottom_one.test1.constructor"
     t.log = props.log
     t.id = props.id
+
+    t.process = t.process.bind(t)
   }
 
   process(callback) {
@@ -19,6 +21,8 @@ var tst2 = class test2 {
     let t = this, fname = "test_bottom_one.test2.constructor"
     t.log = props.log
     t.id = props.id
+
+    t.process = t.process.bind(t)
   }
 
   process(callback) {
@@ -35,6 +39,8 @@ var tst3 = class test3 {
     let t = this, fname = "test_bottom_one.test3.constructor"
     t.log = props.log
     t.id = props.id
+
+    t.process = t.process.bind(t)
   }
 
   process(callback) {
@@ -50,6 +56,8 @@ var tst4 = class test4 {
     let t = this, fname = "test_bottom_one.test4.constructor"
     t.log = props.log
     t.id = props.id
+
+    t.process = t.process.bind(t)
 
   }
 
