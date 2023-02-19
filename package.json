@@ -24,6 +24,7 @@
     "test_top_one": "node ./tests/top_one",
     "test_bottom_one": "node ./tests/bottom_one",
     "test_func_all": "node ./tests/func_all",
+    "test_status": "node ./tests/status",
     "test_json_all": "node ./tests/json_all",
     "test_json_top_one": "node ./tests/json_top_one",
     "test_json_bottom_one": "node ./tests/json_bottom_one",

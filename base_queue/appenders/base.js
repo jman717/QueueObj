@@ -30,10 +30,12 @@ exports = module.exports = class base {
             t.appender = props.appender
             t.data_to_process_array = props.data_to_process_array
             t.objects_to_process = props.process_objects
+            t.include_status = props.include_status
             t.relative_path = props.relative_path
 
             t.init = t.init.bind(t)
             t.get_objects_to_process = t.get_objects_to_process.bind(t)
+            t.get_include_status = t.get_include_status.bind(t)
             t.get_data_to_process_array = t.get_data_to_process_array.bind(t)
             t.process = t.process.bind(t)
             t.get_results_array = t.get_results_array.bind(t)
@@ -97,6 +99,10 @@ exports = module.exports = class base {
 
     get_objects_to_process() {
         return this.objects_to_process
+    }
+
+    get_include_status() {
+        return this.include_status
     }
 
     init(props = {}) {
