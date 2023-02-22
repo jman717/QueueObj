@@ -14,16 +14,16 @@ Included tag appenders:
 * top_one - process only the object in the 0(zero) position of the process array.
 * bottom_one - process only the object in the last position of the process array.
 * func_all - process custom function names in created objects. Custom processing names can be used in any appender, this is just one example.
-* status - synchronous - queue and process all objects by status.
+* status - queue and process all objects by status.
+* name - queue and process all objects by name.
+* version - queue and process all objects by version.
 
 * json_all - process a class object per json input array variables.
 * json_top_one - process a class object per the first json input array variable.
 * json_bottom_one - process a class object per the last json input array variable.
 * json_func_all - process custom function names in created objects. Custom processing names can be used in any json appender, this is just one example.
-
-* status - synchronous - queue and process all objects by status.
-* name - synchronous - queue and process all objects by name.
-* version - synchronous - queue and process all objects by version.
+* json_status - queue and process all objects by status.
+* json_name - queue and process all objects by name.
 
 Mocha Test
 ---------

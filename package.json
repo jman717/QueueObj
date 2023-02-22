@@ -25,10 +25,15 @@
     "test_bottom_one": "node ./tests/bottom_one",
     "test_func_all": "node ./tests/func_all",
     "test_status": "node ./tests/status",
+    "test_name": "node ./tests/name",
+    "test_version": "node ./tests/version",
     "test_json_all": "node ./tests/json_all",
     "test_json_top_one": "node ./tests/json_top_one",
     "test_json_bottom_one": "node ./tests/json_bottom_one",
-    "test_json_func_all": "node ./tests/json_func_all"
+    "test_json_func_all": "node ./tests/json_func_all",
+    "test_json_status": "node ./tests/json_status",
+    "test_json_version": "node ./tests/json_version",
+    "test_json_name": "node ./tests/json_name"
   },
   "keywords": [
     "queue",

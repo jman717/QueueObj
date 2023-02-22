@@ -31,11 +31,15 @@ exports = module.exports = class base {
             t.data_to_process_array = props.data_to_process_array
             t.objects_to_process = props.process_objects
             t.include_status = props.include_status
+            t.include_version = props.include_version
+            t.include_name = props.include_name
             t.relative_path = props.relative_path
 
             t.init = t.init.bind(t)
             t.get_objects_to_process = t.get_objects_to_process.bind(t)
             t.get_include_status = t.get_include_status.bind(t)
+            t.get_include_name = t.get_include_name.bind(t)
+            t.get_include_version = t.get_include_version.bind(t)
             t.get_data_to_process_array = t.get_data_to_process_array.bind(t)
             t.process = t.process.bind(t)
             t.get_results_array = t.get_results_array.bind(t)
@@ -103,6 +107,14 @@ exports = module.exports = class base {
 
     get_include_status() {
         return this.include_status
+    }
+
+    get_include_version() {
+        return this.include_version
+    }
+
+    get_include_name() {
+        return this.include_name
     }
 
     init(props = {}) {
