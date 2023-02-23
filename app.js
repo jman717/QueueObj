@@ -4,7 +4,7 @@
 */
 
 let base_queue = require("./base_queue/app"),
-    log_queue = require("./log-queue/app"),
+    log_queue = require("log-queue"),
     fs = require('fs'),
     validPath = require('valid-path')
 
@@ -167,7 +167,7 @@ exports = module.exports = class QueueObj {
         return this.qJson.get_class_obj_array()
     }
 
-    logMsg(props = { msg: '', type: '' }) {
+    logMsg(props = { msg: '', type: '' }) {   
         let t = this, fname = "QueueObj.logMsg"
         try {
             if (typeof props.msg == "undefined")

@@ -2,7 +2,7 @@ var queue = require("../app.js")
 
 var tst1 = class test1 {
   constructor(props) {
-    let t = this, fname = "name.test1.constructor"
+    let t = this, fname = "name_non_matching.test1.constructor"
     t.log = props.log
     t.id = props.id
     t.name = "test 1"
@@ -11,7 +11,7 @@ var tst1 = class test1 {
   }
 
   process(callback) {
-    let t = this, fname = "name.test1.process"
+    let t = this, fname = "name_non_matching.test1.process"
     t.log({ msg: `This object (${fname}) is id (${t.id}) name (${t.name}). Do stuff here`.bgBrightGreen, type: "info" })
     callback({ success: { msg: `processing all ${t.name}` } })
   }
@@ -19,7 +19,7 @@ var tst1 = class test1 {
 
 var tst2 = class test2 {
   constructor(props) {
-    let t = this, fname = "name.test2.constructor"
+    let t = this, fname = "name_non_matching.test2.constructor"
     t.log = props.log
     t.id = props.id
     t.name = "test 2"
@@ -28,7 +28,7 @@ var tst2 = class test2 {
   }
 
   process(callback) {
-    let t = this, fname = "name.test2.process"
+    let t = this, fname = "name_non_matching.test2.process"
     t.log({ msg: `This object (${fname}) is id (${t.id}) name (${t.name}). Do stuff here`.bgBrightGreen, type: "info" })
     setTimeout(() => {
       callback({ success: { msg: `processing all ${t.name}` } })
@@ -38,7 +38,7 @@ var tst2 = class test2 {
 
 var tst3 = class test3 {
   constructor(props) {
-    let t = this, fname = "name.test3.constructor"
+    let t = this, fname = "name_non_matching.test3.constructor"
     t.log = props.log
     t.id = props.id
     t.name = "test 3"
@@ -47,7 +47,7 @@ var tst3 = class test3 {
   }
 
   process(callback) {
-    let t = this, fname = "name.test3.process"
+    let t = this, fname = "name_non_matching.test3.process"
     t.log({ msg: `This object (${fname}) is id (${t.id}) name (${t.name}). Do stuff here`.bgBrightGreen, type: "info" })
     // callback({success: { msg: `processing all ${t.name}` }})
     callback({ error: { msg: `there is some problem thrown here on ${t.name}` } })
@@ -56,7 +56,7 @@ var tst3 = class test3 {
 
 var tst4 = class test4 {
   constructor(props) {
-    let t = this, fname = "name.test4.constructor"
+    let t = this, fname = "name_non_matching.test4.constructor"
     t.log = props.log
     t.id = props.id
     t.name = "test 4"
@@ -65,7 +65,7 @@ var tst4 = class test4 {
   }
 
   process(callback) {
-    let t = this, fname = "name.test4.process"
+    let t = this, fname = "name_non_matching.test4.process"
     t.log({ msg: `This object (${fname}) is id (${t.id}) name (${t.name}). Do stuff here`.bgBrightGreen, type: "info" })
     callback({ success: { msg: `processing all ${t.name}` } })
   }
@@ -76,10 +76,10 @@ var qObj = new queue()
 qObj.init().process({
   appender: "name",
   exclude_logMsg: ["debug"],   /* example ["debug", "info"] */
-  include_name: ["test 2", "test 4"],
+  exclude_names: ["test 2", "test 4"],
   process_objects: [tst1, tst2, tst3, tst4]
 }).then((success) => {
-  qObj.logMsg({ msg: `test success: {msg: "status objects processed with no errors"}`.success.italic.bold, type: "success" })
+  qObj.logMsg({ msg: `test success: {msg: "name non matching objects processed with no errors"}`.success.italic.bold, type: "success" })
 }, (error) => {
   if (typeof error == "string") {
     qObj.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })

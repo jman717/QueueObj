@@ -4,7 +4,8 @@
 * name.js
 */
 
-var base = require('./base.js')
+var base = require('./base.js'),
+	name_common = require('./name_common.js')
 
 exports = module.exports = class name extends base {
 	constructor(props) {
@@ -13,6 +14,7 @@ exports = module.exports = class name extends base {
 		try {
 			t.aname = 'name'
 			t.main_process_objects = []
+			t.name_common = new name_common({ parent: t, log: t.parent.logMsg })
 
 			if (t.appender != t.aname)
 				throw new Error(`(${t.appender}) does not equal the appender name (${t.aname}))`)
@@ -31,7 +33,7 @@ exports = module.exports = class name extends base {
 	}
 
 	init(props = {}) {
-		var t = this, fname = `name.init`, obj, obj_a, is
+		var t = this, fname = `name.init`, obj
 		try {
 			t.parent.logMsg({ msg: `${fname}`.debug, type: "debug" })
 
@@ -41,13 +43,7 @@ exports = module.exports = class name extends base {
 			t.get_objects_to_process().map((dat, i) => {
 				dat = { props: { id: (i + 1), log: t.parent.logMsg } }
 				obj = t.get_objects_to_process()[i]
-				is = t.get_include_name()
-				obj_a = new obj(dat.props)
-				if (typeof obj_a != "undefined" &&
-					typeof obj_a.name != "undefined" &&
-					is.indexOf(obj_a.name) > -1) {
-					t.main_process_objects.push(new obj(dat.props))
-				}
+				t.name_common.init({ obj: obj, dat: dat })
 			})
 
 			super.init(props)

@@ -34,4 +34,8 @@ describe('require', function () {
     it('valid-path', function () {
         assert(require('valid-path'))
     })
+        
+    it('valid-path', function () {
+        assert(require('log-queue'))
+    })
 })
