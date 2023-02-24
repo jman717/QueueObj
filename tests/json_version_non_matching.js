@@ -3,14 +3,14 @@ var file_queue = require("../app.js"),
     validPath = require('valid-path')
 
 var file_data = [
-    { props: { id: 100, name: "all", status: "new", absolute_path: __filename, check: true } },
-    { props: { id: 101, name: "func_all", status: "done", absolute_path: __filename, check: true } },
-    { props: { id: 102, name: "top_one", status: "new", absolute_path: __filename, check: true } },
-    { props: { id: 103, name: "bottom_one", status: "new", absolute_path: __filename, check: true } },
-    { props: { id: 104, name: "sync_all", status: "done", absolute_path: __filename, check: true } },
-    { props: { id: 105, name: "status", status: "delete", absolute_path: __filename, check: true } },
-    { props: { id: 106, name: "name", status: "test", absolute_path: __filename, check: true } },
-    { props: { id: 107, name: "version", status: "new", absolute_path: __filename, check: true } }
+    { props: { id: 100, name: "all", version: "1.00", absolute_path: __filename, check: true } },
+    { props: { id: 101, name: "func_all", version: "2.00", absolute_path: __filename, check: true } },
+    { props: { id: 102, name: "top_one", version: "1.00", absolute_path: __filename, check: true } },
+    { props: { id: 103, name: "bottom_one", version: "3.00", absolute_path: __filename, check: true } },
+    { props: { id: 104, name: "sync_all", version: "4.00", absolute_path: __filename, check: true } },
+    { props: { id: 105, name: "status", version: "5.00", absolute_path: __filename, check: true } },
+    { props: { id: 106, name: "name", version: "2.00", absolute_path: __filename, check: true } },
+    { props: { id: 107, name: "version", version: "3.00", absolute_path: __filename, check: true } }
 ]
 
 var file_object = class file_obj {
@@ -20,7 +20,7 @@ var file_object = class file_obj {
             t.id = props.id
             t.log = props.log
             t.name = props.name
-            t.status = props.status
+            t.version = props.version
             t.path = props.relative_path
             t.absolute_path = props.absolute_path
             t.errors = false
@@ -80,27 +80,28 @@ var file_object = class file_obj {
 
     a_cool_function(callback) {
         let t = this
-        t.log({ msg: `processing object id ${t.id} name(${t.name}) status(${t.status}). Do a bunch of stuff here.`.silly, type: "silly" })
+        t.log({ msg: `processing object id ${t.id} name(${t.name}) version(${t.version}). Do a bunch of stuff here.`.silly, type: "silly" })
         if (t.errors)
             callback({ error: { msg: t.error_msg } })
         else
-            callback({ success: { msg: `id = ${t.id} name(${t.name}) status(${t.status})`}})
+            callback({ success: { msg: `id = ${t.id} name(${t.name}) version(${t.version})`}})
     }
 }
 
 var qRequire = new file_queue()
 
 qRequire.init().process({
-    appender: "json_name",
+    appender: "json_version",
     exclude_logMsg: ["debug", "silly", "info"],   /* default [] */
     process_objects: [file_object],
-    exclude_names: ["all", "status", "version"],
+    include_version: ["2.00", "4.00"],
     data_to_process_array: file_data
 }).then((success) => {
-    qRequire.logMsg({ msg: `test success: json name non matching objects processed with no errors`.success.italic.bold, type: "success" })
+    qRequire.logMsg({ msg: `test success: json_version objects processed with no errors`.success.italic.bold, type: "success" })
 }, (error) => {
     if (typeof error == "string") {
         qRequire.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })
+
     } else {
         let add_s = (error.error_count > 1) ? 's' : ''
         qRequire.logMsg({ msg: `${error.error_count} error${add_s} detected`.error.italic.bold, type: "error" })

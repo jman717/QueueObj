@@ -6,17 +6,18 @@ const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "2.0.4",
+  "version": "3.0.0",
   "bundleDependencies": [],
   "dependencies": {
     "@types/node": "^18.11.19",
+    "base-queue": "^1.0.0",
     "chai": "^4.3.7",
     "colors": "^1.4.0",
     "diffler": "^2.0.4",
     "fs": "^0.0.1-security",
+    "log-queue": "^1.0.0",
     "mocha": "^10.2.0",
     "queuejson": "^9.0.11",
-    "typescript": "^4.9.5",
     "valid-path": "^2.1.0"
   },
   "scripts": {
@@ -24,7 +25,26 @@ const packageMock = {
     "test": "mocha",
     "ditched": "ditched -a",
     "test_files": "node ./tests/files",
-    "test_all": "node ./tests/test_all"
+    "test_all": "node ./tests/all",
+    "test_top_one": "node ./tests/top_one",
+    "test_bottom_one": "node ./tests/bottom_one",
+    "test_func_all": "node ./tests/func_all",
+    "test_status_matching": "node ./tests/status_matching",
+    "test_status_non_matching": "node ./tests/status_non_matching",
+    "test_name_matching": "node ./tests/name_matching",
+    "test_name_non_matching": "node ./tests/name_non_matching",
+    "test_version_matching": "node ./tests/version_matching",
+    "test_version_non_matching": "node ./tests/version_non_matching",
+    "test_json_all": "node ./tests/json_all",
+    "test_json_top_one": "node ./tests/json_top_one",
+    "test_json_bottom_one": "node ./tests/json_bottom_one",
+    "test_json_func_all": "node ./tests/json_func_all",
+    "test_json_status_matching": "node ./tests/json_status_matching",
+    "test_json_status_non_matching": "node ./tests/json_status_non_matching",
+    "test_json_version_matching": "node ./tests/json_version_matching",
+    "test_json_version_non_matching": "node ./tests/json_version_non_matching",
+    "test_json_name_matching": "node ./tests/json_name_matching",
+    "test_json_name_non_matching": "node ./tests/json_name_non_matching"
   },
   "keywords": [
     "queue",
@@ -49,6 +69,7 @@ const packageMock = {
   "name": "file-obj-queue",
   "start": "node app.js"
 }
+
 
 describe('package.json', function () {
     it('should pass', function () {

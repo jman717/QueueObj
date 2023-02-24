@@ -79,7 +79,7 @@ qObj.init().process({
   include_status: ["init", "delete"],
   process_objects: [tst1, tst2, tst3, tst4]
 }).then((success) => {
-  qObj.logMsg({ msg: `test success: {msg: "status objects processed with no errors"}`.success.italic.bold, type: "success" })
+  qObj.logMsg({ msg: `test success: {msg: "status matching objects processed with no errors"}`.success.italic.bold, type: "success" })
 }, (error) => {
   if (typeof error == "string") {
     qObj.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })

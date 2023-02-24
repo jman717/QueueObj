@@ -3,7 +3,7 @@
 * Main processing app
 */
 
-let base_queue = require("./base_queue/app"),
+let base_queue = require("base-queue"),
     log_queue = require("log-queue"),
     fs = require('fs'),
     validPath = require('valid-path')

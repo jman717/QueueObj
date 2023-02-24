@@ -91,16 +91,17 @@ var file_object = class file_obj {
 var qRequire = new file_queue()
 
 qRequire.init().process({
-    appender: "json_name",
+    appender: "json_status",
     exclude_logMsg: ["debug", "silly", "info"],   /* default [] */
     process_objects: [file_object],
-    exclude_names: ["all", "status", "version"],
+    include_names: ["all", "status"],
     data_to_process_array: file_data
 }).then((success) => {
-    qRequire.logMsg({ msg: `test success: json name non matching objects processed with no errors`.success.italic.bold, type: "success" })
+    qRequire.logMsg({ msg: `test success: json status matching objects processed with no errors`.success.italic.bold, type: "success" })
 }, (error) => {
     if (typeof error == "string") {
         qRequire.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })
+
     } else {
         let add_s = (error.error_count > 1) ? 's' : ''
         qRequire.logMsg({ msg: `${error.error_count} error${add_s} detected`.error.italic.bold, type: "error" })

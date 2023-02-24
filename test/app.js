@@ -24,7 +24,7 @@ describe('require', function () {
     })
 
     it('base_queue', function () {
-        assert(require('../base_queue/app'))
+        assert(require('base-queue'))
     })
 
     it('fs', function () {
