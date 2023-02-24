@@ -6,7 +6,7 @@ const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "3.0.0",
+  "version": "13.0.0",
   "bundleDependencies": [],
   "dependencies": {
     "@types/node": "^18.11.19",
@@ -56,19 +56,20 @@ const packageMock = {
     "promises",
     "mocha"
   ],
-  "homepage": "https://github.com/jman717/file-obj-queue",
+  "homepage": "https://github.com/jman717/queueobj",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jman717/file-obj-queue.git"
+    "url": "git+https://github.com/jman717/queueobj"
   },
   "deprecated": false,
   "description": "Queue File Objects",
   "email": "jrman@risebroadband.net",
   "license": "MIT",
   "main": "app.js",
-  "name": "file-obj-queue",
+  "name": "queueobj",
   "start": "node app.js"
 }
+
 
 
 describe('package.json', function () {
