@@ -73,9 +73,9 @@ var log_object = class log_obj {
     process(callback) {
         let t = this
         if (t.errors)
-            callback({ error: {msg: t.error_msg} })
+            callback({ error: { msg: t.error_msg } })
         else {
-            callback({ success: {msg: `id = ${t.id} name(${t.name}) success`} })
+            callback({ success: { msg: `id = ${t.id} name(${t.name}) success` } })
         }
     }
 }
@@ -114,7 +114,7 @@ exports = module.exports = class QueueObj {
                 t.resolve = resolve
                 t.reject = reject
             })
-            t.promise_2q= new Promise((resolve, reject) => {
+            t.promise_2q = new Promise((resolve, reject) => {
                 t.resolve_2q = resolve
                 t.reject_2q = reject
             })
@@ -127,7 +127,7 @@ exports = module.exports = class QueueObj {
     }
 
     process(props = {}) {
-        let t = this, fname = `app.process`
+        let t = this, fname = `app.process`, log_appender
 
         // if (typeof props.data_to_process_array == 'undefined')
         //     t.reject('base_queue no props.data_to_process_array')
@@ -138,6 +138,10 @@ exports = module.exports = class QueueObj {
         if (typeof props.process_objects == 'undefined')
             t.reject(`props.process_objects not defined`)
 
+        if (typeof props.log_appender != "undefined")
+            log_appender = props.log_appender
+        else
+            log_appender = "console"
         try {
             t.log_queue = new log_queue({
                 parent: t,
@@ -145,8 +149,8 @@ exports = module.exports = class QueueObj {
                 exclude_logMsg: props.exclude_logMsg,
                 resolve: t.resolve,
                 reject: t.reject
-            }).init({appender: "console"})
-            t.base_queue = new base_queue({   
+            }).init({ appender: log_appender })
+            t.base_queue = new base_queue({
                 parent: t,
                 relative_path: "./appenders/",
                 logMsg: t.logMsg,
@@ -163,7 +167,7 @@ exports = module.exports = class QueueObj {
         return this.qJson.get_class_obj_array()
     }
 
-    logMsg(props = { msg: '', type: '' }) {   
+    logMsg(props = { msg: '', type: '' }) {
         let t = this, fname = "QueueObj.logMsg"
         try {
             if (typeof props.msg == "undefined")
