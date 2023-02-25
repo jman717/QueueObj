@@ -127,7 +127,7 @@ exports = module.exports = class QueueObj {
     }
 
     process(props = {}) {
-        let t = this, fname = `app.process`, log_appender
+        let t = this, fname = `app.process`, xlog
 
         // if (typeof props.data_to_process_array == 'undefined')
         //     t.reject('base_queue no props.data_to_process_array')
@@ -138,10 +138,9 @@ exports = module.exports = class QueueObj {
         if (typeof props.process_objects == 'undefined')
             t.reject(`props.process_objects not defined`)
 
-        if (typeof props.log_appender != "undefined")
-            log_appender = props.log_appender
-        else
-            log_appender = "console"
+        xlog = {appender: "console"}
+        if (typeof props.xlog != "undefined" && typeof props.xlog.appender != "undefined")
+            xlog = props.xlog
         try {
             t.log_queue = new log_queue({
                 parent: t,
@@ -149,7 +148,7 @@ exports = module.exports = class QueueObj {
                 exclude_logMsg: props.exclude_logMsg,
                 resolve: t.resolve,
                 reject: t.reject
-            }).init({ appender: log_appender })
+            }).init(xlog)
             t.base_queue = new base_queue({
                 parent: t,
                 relative_path: "./appenders/",
