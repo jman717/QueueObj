@@ -145,11 +145,7 @@ exports = module.exports = class QueueObj {
                 exclude_logMsg: props.exclude_logMsg,
                 resolve: t.resolve,
                 reject: t.reject
-            }).init({
-                appender: "console_basic",
-                process_objects: [log_object],
-                data_to_process_array: log_data
-            })
+            }).init({appender: "console"})
             t.base_queue = new base_queue({   
                 parent: t,
                 relative_path: "./appenders/",
