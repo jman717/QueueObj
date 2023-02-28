@@ -94,7 +94,7 @@ qRequire.init().process({
     appender: "json_status",
     exclude_logMsg: ["debug", "silly", "info"],   /* default [] */
     process_objects: [file_object],
-    include_names: ["all", "status"],
+    include_status: ["new", "done"],
     data_to_process_array: file_data
 }).then((success) => {
     qRequire.logMsg({ msg: `test success: json status matching objects processed with no errors`.success.italic.bold, type: "success" })
