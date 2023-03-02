@@ -97,7 +97,7 @@ qRequire.init().process({
     include_version: ["2.00", "4.00"],
     data_to_process_array: file_data
 }).then((success) => {
-    qRequire.logMsg({ msg: `test success: json_version objects processed with no errors`.success.italic.bold, type: "success" })
+    qRequire.logMsg({ msg: `test success: json version matching objects processed with no errors`.success.italic.bold, type: "success" })
 }, (error) => {
     if (typeof error == "string") {
         qRequire.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })

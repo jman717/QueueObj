@@ -30,11 +30,9 @@ var file_object = class file_obj {
             //     t.errors = true
             //     t.error_msg = `some sort of error here`    
             // }
-            t.base_queue_process_function = t.a_cool_function
 
             t.do_checks = t.do_checks.bind(t)
-            t.a_cool_function = t.a_cool_function.bind(t)
-            t.base_queue_process_function = t.base_queue_process_function.bind(t)
+            t.process = t.process.bind(t)
 
             if (props.check) {
                 t.do_checks()
@@ -78,13 +76,10 @@ var file_object = class file_obj {
         }
     }
 
-    a_cool_function(callback) {
-        let t = this
-        t.log({ msg: `processing object id ${t.id} name(${t.name}) status(${t.status}). Do a bunch of stuff here.`.silly, type: "silly" })
-        if (t.errors)
-            callback({ error: { msg: t.error_msg } })
-        else
-            callback({ success: { msg: `id = ${t.id} name(${t.name}) status(${t.status})`}})
+    process(callback) {
+        let t = this, fname = "name_matching.test4.process"
+        t.log({ msg: `This object (${fname}) is id (${t.id}) name (${t.name}). Do stuff here`.bgBrightGreen, type: "info" })
+        callback({ success: { msg: `processing all ${t.name}` } })
     }
 }
 
@@ -92,7 +87,7 @@ var qRequire = new file_queue()
 
 qRequire.init().process({
     appender: "json_name",
-    exclude_logMsg: ["debug", "silly", "info"],   /* default [] */
+    exclude_logMsg: [],   /* default [] */
     process_objects: [file_object],
     exclude_names: ["all", "status", "version"],
     data_to_process_array: file_data

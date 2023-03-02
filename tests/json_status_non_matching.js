@@ -92,7 +92,7 @@ var qRequire = new file_queue()
 
 qRequire.init().process({
     appender: "json_status",
-    exclude_logMsg: ["debug", "silly", "info"],   /* default [] */
+    exclude_logMsg: ["debug"],   /* default [] */
     process_objects: [file_object],
     exclude_status: ["new", "done"],
     data_to_process_array: file_data

@@ -7,6 +7,8 @@
 
 Queue javascript objects dynamically then process the queue according to the appender. All appenders are handled synchronously.
 
+```
+
 Included tag appenders:
 
 * files - See if inputed files exists.
