@@ -36,7 +36,6 @@ npm test
 
 General Setup Test
 ---------
-```
 npm run test_files  
 npm run test_all   
 npm run test_top_one   
@@ -63,7 +62,6 @@ npm run test_json_name_non_matching
 
 Usage
 ---------
-```
 
 var queue = require("queueobj");
 
