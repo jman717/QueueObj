@@ -37,33 +37,33 @@ npm test
 General Setup Test
 ---------
 ```
-npm run test_files
-npm run test_all
-npm run test_top_one
-npm run test_bottom_one
-npm run test_func_all
-npm run test_status_matching
-npm run test_status_non_matching
-npm run test_name_matching
-npm run test_name_non_matching
-npm run test_version_matching
-npm run test_version_non_matching
-npm run test_json_all
-npm run test_json_top_one
-npm run test_json_bottom_one
-npm run test_json_func_all
-npm run test_json_status_matching
-npm run test_json_status_non_matching
-npm run test_json_version_matching
-npm run test_json_version_non_matching
-npm run test_json_name_matching
-npm run test_json_name_non_matching
+npm run test_files  
+npm run test_all 
+npm run test_top_one 
+npm run test_bottom_one 
+npm run test_func_all 
+npm run test_status_matching 
+npm run test_status_non_matching 
+npm run test_name_matching 
+npm run test_name_non_matching 
+npm run test_version_matching 
+npm run test_version_non_matching 
+npm run test_json_all 
+npm run test_json_top_one 
+npm run test_json_bottom_one 
+npm run test_json_func_all 
+npm run test_json_status_matching 
+npm run test_json_status_non_matching 
+npm run test_json_version_matching 
+npm run test_json_version_non_matching 
+npm run test_json_name_matching 
+npm run test_json_name_non_matching 
 
 ```
 
 Usage
 ---------
-```js
+```
 
 var queue = require("queueobj");
 
