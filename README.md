@@ -28,6 +28,8 @@ Included tag appenders:
 * json_name - queue and process all objects by name.
 * json_version - queue and process all objects by version.
 
+```
+
 Mocha Test
 ---------
 ```
@@ -36,6 +38,7 @@ npm test
 
 General Setup Test
 ---------
+```
 npm run test_files  
 npm run test_all   
 npm run test_top_one   
@@ -62,6 +65,7 @@ npm run test_json_name_non_matching
 
 Usage
 ---------
+```
 
 var queue = require("queueobj");
 
