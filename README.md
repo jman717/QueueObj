@@ -50,6 +50,8 @@ npm run test_name_matching
 npm run test_name_non_matching   
 npm run test_version_matching   
 npm run test_version_non_matching   
+npm run test_http_all
+npm run test_json_http_all
 npm run test_json_all   
 npm run test_json_top_one   
 npm run test_json_bottom_one   
