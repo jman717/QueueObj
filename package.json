@@ -2,7 +2,7 @@
   "author": {
     "name": "Jim Manton"
   },
-  "version": "15.0.1",
+  "version": "15.0.2",
   "bundleDependencies": [],
   "dependencies": {
     "base-queue": "^3.0.1",

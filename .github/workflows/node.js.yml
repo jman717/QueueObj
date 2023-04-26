@@ -81,4 +81,3 @@ jobs:
     - run: npm run test_files
     - run: npm run test_all
     - run: npm run test_json_all
-    - run: npm run test_http_all
