@@ -92,11 +92,13 @@ var qRequire = new file_queue()
 
 qRequire.init().process({
     appender: "json_all",
-    exclude_logMsg: ["debug", "silly", "info"],   /* default [] */
+    xlog: {appender: "http", hostname: "127.0.0.1", port: 3002},
+    exclude_logMsg: ["debug"],   /* default ["debug", "silly", "info"] */
     process_objects: [file_object],
     data_to_process_array: file_data
 }).then((success) => {
     qRequire.logMsg({ msg: `test success: json_all objects processed with no errors`.success.italic.bold, type: "success" })
+    qRequire.log_queue.server()
 }, (error) => {
     if (typeof error == "string") {
         qRequire.logMsg({ msg: `error: ${error}`.error.italic.bold, type: "error" })
@@ -105,5 +107,6 @@ qRequire.init().process({
         let add_s = (error.error_count > 1) ? 's' : ''
         qRequire.logMsg({ msg: `${error.error_count} error${add_s} detected`.error.italic.bold, type: "error" })
     }
+    qRequire.log_queue.server()
 })
 

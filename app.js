@@ -134,13 +134,14 @@ exports = module.exports = class QueueObj {
 
         if (typeof props.appender == 'undefined')
             t.reject('base_queue no props.appender')
-
         if (typeof props.process_objects == 'undefined')
             t.reject(`props.process_objects not defined`)
 
-        xlog = {appender: "console"}
+        xlog = { appender: "console" }
+
         if (typeof props.xlog != "undefined" && typeof props.xlog.appender != "undefined")
             xlog = props.xlog
+
         try {
             t.log_queue = new log_queue({
                 parent: t,
