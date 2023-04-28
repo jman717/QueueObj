@@ -6,7 +6,7 @@ const packageMock = {
   "author": {
     "name": "Jim Manton"
   },
-  "version": "15.0.2",
+  "version": "15.1.0",
   "bundleDependencies": [],
   "dependencies": {
     "base-queue": "^3.0.1",
@@ -36,6 +36,15 @@ const packageMock = {
     "test_version_matching": "node ./tests/version_matching",
     "test_version_non_matching": "node ./tests/version_non_matching",
     "test_http_all": "node ./tests/http_all",
+    "test_http_top_one": "node ./tests/http_top_one",
+    "test_http_bottom_one": "node ./tests/http_bottom_one",
+    "test_http_func_all": "node ./tests/http_func_all",
+    "test_http_status_matching": "node ./tests/http_status_matching",
+    "test_http_status_non_matching": "node ./tests/http_status_non_matching",
+    "test_http_name_matching": "node ./tests/http_name_matching",
+    "test_http_name_non_matching": "node ./tests/http_name_non_matching",
+    "test_http_version_matching": "node ./tests/http_version_matching",
+    "test_http_version_non_matching": "node ./tests/http_version_non_matching",
     "test_json_http_all": "node ./tests/json_http_all",
     "test_json_all": "node ./tests/json_all",
     "test_json_top_one": "node ./tests/json_top_one",
@@ -71,6 +80,7 @@ const packageMock = {
   "name": "queueobj",
   "start": "node app.js"
 }
+
 
 describe('package.json', function () {
     it('should pass', function () {
