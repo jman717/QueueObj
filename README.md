@@ -30,12 +30,6 @@ Included tag appenders:
 
 ```
 
-Mocha Test
----------
-```
-npm test
-```
-
 General Setup Test
 ---------
 ```
@@ -71,7 +65,6 @@ npm run test_json_version_matching
 npm run test_json_version_non_matching   
 npm run test_json_name_matching   
 npm run test_json_name_non_matching   
-
 ```
 
 Usage
