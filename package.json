@@ -2,14 +2,12 @@
   "author": {
     "name": "Jim Manton"
   },
-  "version": "15.1.9",
+  "version": "15.1.10",
   "bundleDependencies": [],
   "dependencies": {
-    "base-queue": "^3.0.5",
+    "base-queue": "^3.0.6",
     "colors": "^1.4.0",
-    "fs": "^0.0.1-security",
-    "http": "^0.0.1-security",
-    "log-queue": "^3.0.7",
+    "log-queue": "^3.0.8",
     "valid-path": "^2.1.0"
   },
   "scripts": {
