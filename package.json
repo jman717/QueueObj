@@ -5,7 +5,7 @@
   "version": "15.1.10",
   "bundleDependencies": [],
   "dependencies": {
-    "base-queue": "^3.0.6",
+    "base-queue": "^3.0.7",
     "colors": "^1.4.0",
     "log-queue": "^3.0.8",
     "valid-path": "^2.1.0"

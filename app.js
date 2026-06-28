@@ -129,9 +129,6 @@ exports = module.exports = class QueueObj {
     process(props = {}) {
         let t = this, fname = `app.process`, xlog
 
-        // if (typeof props.data_to_process_array == 'undefined')
-        //     t.reject('base_queue no props.data_to_process_array')
-
         if (typeof props.appender == 'undefined')
             t.reject('base_queue no props.appender')
         if (typeof props.process_objects == 'undefined')
@@ -167,7 +164,7 @@ exports = module.exports = class QueueObj {
         return this.qJson.get_class_obj_array()
     }
 
-    logMsg(props = { msg: '', type: '' }) {
+    logMsg(props = { msg: '', stack: '', type: '' }) {
         let t = this, fname = "QueueObj.logMsg"
         try {
             if (typeof props.msg == "undefined")
@@ -176,6 +173,14 @@ exports = module.exports = class QueueObj {
                 throw new Error(`no type property in (${JSON.stringify(props)}) `)
             if (t.log_queue != null && typeof t.log_queue.logMsg != 'undefined') {
                 t.log_queue.logMsg(props)
+                try {
+                    if (typeof props.stack === 'string') {
+                        var arr = props.stack.split("\n")[1].replace(/  /g, "")
+                        t.log_queue.logMsg({msg: arr, 'type': 'error'})
+                    }
+                } catch (e) { 
+                    qObj.logMsg({ msg: e.message, 'stack': e.stack, 'type': "error" })
+                }
             } else {
                 throw new Error(`t.log_queue does not exist`)
             }
