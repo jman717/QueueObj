@@ -92,6 +92,7 @@ exports = module.exports = class QueueObj {
             t.reject_2q = null
             t.successMsg = ''
             t.log_queue = null
+            t.tagline = null
 
             t.logMsg = t.logMsg.bind(t)
             t.init = t.init.bind(t)
@@ -151,6 +152,7 @@ exports = module.exports = class QueueObj {
                 parent: t,
                 relative_path: "./appenders/",
                 logMsg: t.logMsg,
+                tagline: props.tagline,
                 resolve: t.resolve_2q,
                 reject: t.reject_2q
             }).load(props).process()
@@ -176,9 +178,9 @@ exports = module.exports = class QueueObj {
                 try {
                     if (typeof props.stack === 'string') {
                         var arr = props.stack.split("\n")[1].replace(/  /g, "")
-                        t.log_queue.logMsg({msg: arr, 'type': 'error'})
+                        t.log_queue.logMsg({ msg: arr, 'type': 'error' })
                     }
-                } catch (e) { 
+                } catch (e) {
                     qObj.logMsg({ msg: e.message, 'stack': e.stack, 'type': "error" })
                 }
             } else {
